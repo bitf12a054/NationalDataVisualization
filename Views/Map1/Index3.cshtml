@@ -1,0 +1,1286 @@
+﻿@{
+    Layout = null;
+}
+@using ThinkGeo.MapSuite.MvcEdition
+@using ThinkGeo.MapSuite.Core
+@model ThinkGeo.MapSuite.MvcEdition.Map
+@using System.Collections.Generic
+<!DOCTYPE html>
+
+<html>
+<head>
+    <style>
+        div#spinner {
+            display: none;
+            width: 100px;
+            height: 100px;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            text-align: center;
+            margin-left: -50px;
+            margin-top: -100px;
+            z-index: 2;
+            overflow: auto;
+        }
+        .loader {
+            position: fixed;
+            left: 0px;
+            top: 0px;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            background: url('~/images/lazy-loading-image.gif') 50% 50% no-repeat rgb(249,249,249) ;
+            
+        }
+#overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    background: #000;
+    opacity: 0.8;
+    filter: alpha(opacity=80);
+}
+#loading {
+    width: 50px;
+    height: 57px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -28px 0 0 -25px;
+}
+    </style>
+    <style>
+        div.relative {
+            position: relative;
+            border: 2px solid #3b8920;
+        }
+
+        div.absolute {
+            position: absolute;
+            visibility: hidden;
+            top: 0px;
+            right: 0;
+            width: 160px;
+            height: 310px;
+            border: 2px solid #73AD21;
+        }
+    </style>
+
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <style type="text/css">
+        .dropdown:after {
+            background: none repeat scroll 0 0 #2CA7E5;
+            color: #FFFFFF;
+            content: "\f078";
+            font-family: 'FontAwesome';
+            font-size: 14px;
+            padding: 8px;
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            z-index: -1;
+        }
+
+        .left-inner-addon {
+            position: relative;
+        }
+
+            .left-inner-addon input {
+                padding-left: 30px;
+            }
+
+            .left-inner-addon i {
+                position: absolute;
+                padding: 10px 12px;
+                pointer-events: none;
+            }
+
+        .right-inner-addon {
+            position: relative;
+        }
+
+            .right-inner-addon input {
+                padding-right: 30px;
+            }
+
+            .right-inner-addon i {
+                position: absolute;
+                right: 0px;
+                padding: 10px 12px;
+                pointer-events: none;
+            }
+
+        select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background: transparent;
+        }
+    </style>
+    
+</head>
+<body>
+    <!-- BOOTSTRAP STYLES-->
+    <link href="~/bootstrap-3.3.4-dist/basic.css" rel="stylesheet" />
+    <link href="~/bootstrap-3.3.4-dist/bootstrap.css" rel="stylesheet" />
+    <link href="~/bootstrap-3.3.4-dist/custom.css" rel="stylesheet" />
+    <link href="~/bootstrap-3.3.4-dist/font-awesome.css" rel="stylesheet" />
+    <script src="~/JS/jquery-ui.js"></script>
+    <script src="~/JS/jquery-ui.min.js"></script>
+    <script src="~/JS/jquery-1.11.3.js"></script>
+    <!-- GOOGLE FONTS-->
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+    <link href="~/sweetalert-master/dist/sweetalert.css" rel="stylesheet" />
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script*@>
+    <script src="~/sweetalert-master/dist/sweetalert.min.js"></script>
+    <script src="~/JS/jquery-ui.js"></script>
+    <script src="~/JS/jquery-ui.min.js"></script>
+    <script src="~/JS/jquery-1.11.3.js"></script>
+    
+    <script language="javascript" type="text/javascript">
+        google.load("visualization", "1", { packages: ["corechart"] });
+        function drawChart(Status, People) {
+            //Bar chart
+        var data0 = new Array();
+        data0.push(['Status', 'Values']);
+        for (var i = 0; i < Status.length; i++) {
+            var cc = new Array();
+            cc.push(Status[i]);
+            cc.push(People[i]);
+            data0.push(cc);
+        }
+        var data = google.visualization.arrayToDataTable(data0);
+
+        var options = {
+            title: 'Marital Status',
+            is3D: true,
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+        chart.draw(data, options);
+    }
+        function mapClick(e) {
+            // var infoPopup = map.popups[0];
+            //infoPopup.lon = e.worldXY.lon;
+            //infoPopup.lat = e.worldXY.lat;
+            //map.ajaxCallAction('@ViewContext.RouteData.Values["Controller"].ToString()', 'FindFeatureClick', { x: e.worldXY.lon, y: e.worldXY.lat }, function (result) {
+                var param = { x: e.worldXY.lon, y: e.worldXY.lat };
+                //map.redrawLayer("HightLightDynamicOverlay");
+                map.ajaxCallAction('@ViewContext.RouteData.Values["Controller"].ToString()', 'ZoomToShape', param, callback);
+                map.redrawLayer("HightLightDynamicOverlay");
+                //swal({ title: " <small>Info</small>!", text: result.get_responseData(), html: true });
+                //infoPopup.setContentHTML(result.get_responseData());
+                //infoPopup.show();
+           // });
+
+        }
+        function callback(result) {
+            var parameters = result.get_responseData().split("|");
+            var extent = parameters[0].split(",");
+
+            var bbox = new OpenLayers.Bounds(extent[0], extent[1], extent[2], extent[3]);
+            map.zoomToExtent(bbox);
+
+        }
+        
+        
+        jQuery(document).ready(function () {
+            var loading = function() {
+        // add the overlay with loading image to the page
+        var over = '<div id="overlay">' +
+            '<img id="loading" src="/ShapeFiles/ajax-loader.gif">' +
+            '</div>';
+        $(over).appendTo('body');
+
+        // click on the overlay to remove it
+        //$('#overlay').click(function() {
+        //    $(this).remove();
+        //});
+
+        // hit escape to close the overlay
+       // $(document).keyup(function(e) {
+         //   if (e.which === 27) {
+           //     $('#overlay').remove();
+           // }
+       // });
+    };
+           
+            $("#prov").on("change", function () {
+               loading();
+                var x = $(this).val();
+                var data = {};
+                data.Province_ID = $(this).children(":selected").attr("id");
+                data.Province_Name = $(this).val();
+                $('#divisions').show();
+                $('#divisions').html('');
+                $('#divilabel').show();
+                $('#districts').html('');
+                $('#dislabel').hide();
+                $('#tahsils').html('');
+                $('#tahlabel').hide();
+                map.ajaxCallAction('@ViewContext.RouteData.Values["Controller"].ToString()', 'provinceToDivision', { x: data.Province_ID, y: data.Province_Name }, function (result) {
+                    var x = result.get_responseData();
+
+                    map.redrawLayer("HighLightLayer2");
+                    $('#divisions').append( '<option value="" disabled selected>Division</option>');
+                    $(JSON.parse(x)).each(function (index, element) {
+                        $('#divisions').append($('<option>', {
+                            id: element.Division_ID,
+                            text: element.Division_Name
+
+                        }));
+                    });
+
+                });
+                
+                btnFind_Click($(this).children(":selected").attr("id"), "NAME_1");
+                 $('#overlay').remove();
+            });
+            $("#divisions").on("change", function () {
+                loading();
+                var x = $(this).val();
+                var data = {};
+                data.Division_ID = $(this).children(":selected").attr("id");
+                data.Division_Name = $(this).val();
+
+                $('#districts').show();
+                $('#districts').html('');
+                $('#dislabel').show();
+                $('#tahsils').html('');
+                $('#tahlabel').hide();
+                map.ajaxCallAction('@ViewContext.RouteData.Values["Controller"].ToString()', 'DivisionToDistrict', { x: data.Division_ID, y: data.Division_Name }, function (result) {
+                    var x = result.get_responseData();
+                    $('#districts').append('<option value="" disabled selected>Districts</option>');
+                    $(JSON.parse(x)).each(function (index, element) {
+                        $('#districts').append($('<option>', {
+                            id: element.District_ID,
+                            text: element.District_Name
+
+                        }));
+                    });
+
+                });
+                btnFind_Click($(this).children(":selected").attr("id"), "NAME_2");
+                $('#overlay').remove();
+            });
+            $("#districts").on("change", function () {
+                loading();
+                var x = $(this).val();
+                var data = {};
+                data.District_ID = $(this).children(":selected").attr("id");
+                data.District_Name = $(this).val();
+
+                $('#tahsils').show();
+                $('#tahsils').html('');
+                $('#tahlabel').show();
+                map.ajaxCallAction('@ViewContext.RouteData.Values["Controller"].ToString()', 'DistrictToTahsil', { x: data.District_ID, y: data.District_Name }, function (result) {
+                    var x = result.get_responseData();
+                    $('#tahsils').append('<option value="" disabled selected>tahsils</option>');
+                    $(JSON.parse(x)).each(function (index, element) {
+                        $('#tahsils').append($('<option>', {
+                            id: index,
+                            text: element.Tehsil_Name
+
+                        }));
+                    });
+
+                });
+                btnFind_Click($(this).children(":selected").attr("id"), "NAME_3");
+                 $('#overlay').remove();
+            });
+            $('#tahsils').on("change", function () {
+               loading();
+                btnFind_Click($(this).val(), "TEHSIL");
+                $('#overlay').remove();
+            });
+            $("#att").on("change", function () {
+                loading();
+                //$('#spinner').css('visibility', 'visible');
+                var s;
+                var x;
+                var x0;
+
+                var x2 = $(this).val();
+                var prov = $("#prov").children(":selected").attr("id");   // Province ID
+                var dist = $("#districts").children(":selected").attr("id");   // District ID
+                var distVal = $("#districts").val();
+                var teh = $("#tahsils").val();
+                var data = {};
+                data.Attribute_Name = $(this).val();
+                data.Attribute_ID = 1;//$(this).text();
+                
+                $.ajax({
+                    url: "/Map1/attToSubAttr",
+                    type: "POST",
+                    data: JSON.stringify(data),
+                    dataType: "JSON",
+                    contentType: "Application/JSON",
+                    async: true,
+                    success: function (d) {
+                        
+                        $('#sub_attribute').html('');
+                        for (var i = 0; i < d.Result1.length; i++) {
+                            if (i == 0) {
+                                $('#sub_attribute').append('<option value="" disabled selected>Sub Attribute</option>');
+                            }
+                            var obj1 = d.Result1[i];
+                            var obj2 = d.Result2[i];
+
+                            $('#sub_attribute').append($('<option>', {
+                                value: obj2,
+                                text: obj1
+                            }));
+                        }
+                    }
+                });
+                //get lon lat of  location to show popup on map(Name is confusing I will change it)
+                map.ajaxCallAction('@ViewContext.RouteData.Values["Controller"].ToString()', 'changeSubAttribute', { a: prov, b: distVal, c: teh, d: att, e: null }, function (result) {
+
+                    //showColorDiv();
+                    x = result.get_responseData().trim();
+                    // x = x.trim();
+                    x0 = x.split(',');
+                    s = x0[0].replace(/^"+/, "");
+
+
+                    map.redrawLayer("StaticOverlay");
+                    map.redrawLayer("HightLightDynamicOverlay");
+                    // var mapp = Session["map"];
+
+                });
+
+                var y = $(this).val();
+                //get data when province dist and tehsil are selected
+                if (prov != null && distVal != null && teh != null) {
+                    var data = {};
+                    data.Prov_ID = prov;
+                    data.Dist_ID = dist;
+                    data.Teh_Name = teh;
+                    data.Attr_Name = y;
+
+                    $.ajax({
+                        url: "/Map1/changeAttribute",
+                        type: "POST",
+                        data: JSON.stringify(data),
+                        dataType: "JSON",
+                        contentType: "Application/JSON",
+                        async: true,
+                        success: function (d) {
+                          
+                            var data0 = d[0]; //2007,2008,2009
+                            var data1 = d[1]; //never married
+                            var data2 = d[2]; // values 4
+                            var data3 = d[3]; //never married
+                            var data4 = d[4]; // values 4
+                            var data5 = d[5]; //never married
+                            var data6 = d[6]; // values 4
+
+                            //------------------------------------------------------
+
+                            var text = document.getElementById('att').options[document.getElementById('att').selectedIndex].text;
+
+                            var arr0 = new Array();
+
+
+                            var dataInHtml = "<TABLE class=\"table\"><TR>" +
+                               "<TH COLSPAN=\"2\">" +
+                                "  <H3>" + x2 + "</H3>" +
+                               "</TH>" +
+                            "</TR>";
+                               
+                            //                          var dataInHtml="<div class=\"container\">"+
+                            //"<h2>Data year wise</h2>"+
+                            //"<ul class=\"nav nav-tabs\">"+
+                            // " <li class=\"active\"><a href=\"#menu0\">2006</a></li>"+
+                            //  "<li><a href=\"#menu1\">2007</a></li>"+
+                            //  "<li><a href=\"#menu2\">2008</a></li></ul>"+
+                            //"<div class=\"tab-content\">";
+
+
+                            //    for(var j=0;j<data0.length;j++){
+                            //        var k=1;//data year wisely
+                            //        dataInHtml+="<div id=\"menu"+j+"\" class=\"tab-pane fade\"><h3>"+d[0][j]+"</h3>";
+                            //        dataInHtml+= "<TABLE><TR>" +
+                            //    "<TH COLSPAN=\"2\">" +
+                            //     "  <H3><BR>Data of Area</H3>" +
+                            //    "</TH>" +
+                            // "</TR>" +
+                            //    "<TH>Attribute</TH>" +
+                            //    "<TH>Value</TH>" +
+                            //     "        <TR> <TD>Attribute</TD><TD>Value</TD></TR>";
+                            for (var i = 1; i < d[1].length; i++) {
+                                dataInHtml += "<TR> <TD>" + d[1][i] + "</TD><TD>" + d[2][i] + "</TD></TR>";
+                            }
+                            dataInHtml += "</TABLE>";
+                            //}
+                            $('#statDiv').html('');
+                            
+                            $('#statDiv').append(dataInHtml);
+                            var popChartHtml = ' <div id="piechart_3d" style="width: 340px; height: 360px;"></div>';
+                        
+                           // google.setOnLoadCallback(drawChart);
+                           
+                            //var popup = map.popups[0];
+                            //popup.lonlat = new OpenLayers.LonLat(s, x0[1]);
+                            //popup.setContentHTML('');
+                            //popup.setContentHTML(popChartHtml);
+                            //drawChart();
+                            //popup.setContentHTML("<div>" + "<script language=\"javascript\" type=\"text/javascript\"> function popupClose(){var popup=map.popups[0]; popup.clear();}<\/script>" + "<input type=\"button\" onclick=\"popupClose();\" value=\"X\"/> " + dataInHtml + "</div>");
+                           // popup.show();
+                            //$("#modalBody").append(popChartHtml);
+                            $('#pieChartHeader').html('');
+                            $('#pieChartHeader').html(data.Attr_Name);
+                            $('#pieChart').html();
+                            $('#pieChart').html(popChartHtml);
+                            drawChart(d[1], d[2]);
+                            //$("#myModal").modal("show");
+                            map.redrawLayer("HightLightDynamicOverlay");
+
+
+                        }
+                    });
+                }
+                //get data when prov and dist are selected
+                if (prov != null && distVal != null && teh == null) {
+                    var data = {};
+                    data.Prov_ID = prov;
+                    data.Dist_ID = dist;
+                    data.Attr_Name = y;
+
+                    $.ajax({
+                        url: "/Map1/OnlyProvinceAndDistrictWithAttribute",
+                        type: "POST",
+                        data: JSON.stringify(data),
+                        dataType: "JSON",
+                        contentType: "Application/JSON",
+                        async: true,
+                        success: function (d) {
+
+                            var data0 = d[0]; //2007,2008,2009
+                            var data1 = d[1]; //never married
+                            var data2 = d[2]; // values 4
+                            //var data3 = d[3]; //never married
+                            //var data4 = d[4]; // values 4
+                            //var data5 = d[5]; //never married
+                            //var data6 = d[6]; // values 4
+
+                            //------------------------------------------------------
+
+                            var text = document.getElementById('att').options[document.getElementById('att').selectedIndex].text;
+
+                            var arr0 = new Array();
+
+
+                            var dataInHtml = "<TABLE class=\"table\"><TR>" +
+                               "<TH COLSPAN=\"2\">" +
+                                "  <H3>" + x2 + "</H3>" +
+                               "</TH>" +
+                            "</TR>";
+
+                            //                          var dataInHtml="<div class=\"container\">"+
+                            //"<h2>Data year wise</h2>"+
+                            //"<ul class=\"nav nav-tabs\">"+
+                            // " <li class=\"active\"><a href=\"#menu0\">2006</a></li>"+
+                            //  "<li><a href=\"#menu1\">2007</a></li>"+
+                            //  "<li><a href=\"#menu2\">2008</a></li></ul>"+
+                            //"<div class=\"tab-content\">";
+
+
+                            //    for(var j=0;j<data0.length;j++){
+                            //        var k=1;//data year wisely
+                            //        dataInHtml+="<div id=\"menu"+j+"\" class=\"tab-pane fade\"><h3>"+d[0][j]+"</h3>";
+                            //        dataInHtml+= "<TABLE><TR>" +
+                            //    "<TH COLSPAN=\"2\">" +
+                            //     "  <H3><BR>Data of Area</H3>" +
+                            //    "</TH>" +
+                            // "</TR>" +
+                            //    "<TH>Attribute</TH>" +
+                            //    "<TH>Value</TH>" +
+                            //     "        <TR> <TD>Attribute</TD><TD>Value</TD></TR>";
+                            for (var i = 0; i < d[1].length; i++) {
+                                dataInHtml += "<TR> <TD>" + d[1][i] + "</TD><TD>" + d[2][i] + "</TD></TR>";
+                            }
+                            dataInHtml += "</TABLE>";
+                            //}
+                            $('#statDiv').html('');
+                            $('#statDiv').append(dataInHtml);
+                            var popChartHtml = ' <div id="piechart_3d" style="width: 340px; height: 360px;"></div>';
+
+                            // google.setOnLoadCallback(drawChart);
+
+                            //var popup = map.popups[0];
+                            //popup.lonlat = new OpenLayers.LonLat(s, x0[1]);
+                            //popup.setContentHTML('');
+                            //popup.setContentHTML(popChartHtml);
+                            //drawChart();
+                            //popup.setContentHTML("<div>" + "<script language=\"javascript\" type=\"text/javascript\"> function popupClose(){var popup=map.popups[0]; popup.clear();}<\/script>" + "<input type=\"button\" onclick=\"popupClose();\" value=\"X\"/> " + dataInHtml + "</div>");
+                            // popup.show();
+                            //$("#modalBody").append(popChartHtml);
+                            $('#pieChartHeader').html('');
+                            $('#pieChartHeader').html(data.Attr_Name);
+                            $('#pieChart').html();
+                            $('#pieChart').html(popChartHtml);
+                            drawChart(d[1],d[2]);
+                            //$("#myModal").modal("show");
+                            map.redrawLayer("HightLightDynamicOverlay");
+
+
+                        }
+                    });
+                }
+                //get data when prov  selected
+                if (prov != null && distVal == null && teh == null) {
+                    var data = {};
+                    data.Prov_ID = prov;
+                    data.Attr_Name = y;
+
+                    $.ajax({
+                        url: "/Map1/OnlyProvinceWithAttribute",
+                        type: "POST",
+                        data: JSON.stringify(data),
+                        dataType: "JSON",
+                        contentType: "Application/JSON",
+                        async: true,
+                        success: function (d) {
+
+                            var data0 = d[0]; //2007,2008,2009
+                            var data1 = d[1]; //never married
+                           // var data2 = d[2]; // values 4
+                            //var data3 = d[3]; //never married
+                            //var data4 = d[4]; // values 4
+                            //var data5 = d[5]; //never married
+                            //var data6 = d[6]; // values 4
+
+                            //------------------------------------------------------
+
+                            var text = document.getElementById('att').options[document.getElementById('att').selectedIndex].text;
+
+                            var arr0 = new Array();
+
+
+                            var dataInHtml = "<TABLE class=\"table\"><TR>" +
+                               "<TH COLSPAN=\"2\">" +
+                                "  <H3>" + x2 + "</H3>" +
+                               "</TH>" +
+                            "</TR>";
+
+                            //                          var dataInHtml="<div class=\"container\">"+
+                            //"<h2>Data year wise</h2>"+
+                            //"<ul class=\"nav nav-tabs\">"+
+                            // " <li class=\"active\"><a href=\"#menu0\">2006</a></li>"+
+                            //  "<li><a href=\"#menu1\">2007</a></li>"+
+                            //  "<li><a href=\"#menu2\">2008</a></li></ul>"+
+                            //"<div class=\"tab-content\">";
+
+
+                            //    for(var j=0;j<data0.length;j++){
+                            //        var k=1;//data year wisely
+                            //        dataInHtml+="<div id=\"menu"+j+"\" class=\"tab-pane fade\"><h3>"+d[0][j]+"</h3>";
+                            //        dataInHtml+= "<TABLE><TR>" +
+                            //    "<TH COLSPAN=\"2\">" +
+                            //     "  <H3><BR>Data of Area</H3>" +
+                            //    "</TH>" +
+                            // "</TR>" +
+                            //    "<TH>Attribute</TH>" +
+                            //    "<TH>Value</TH>" +
+                            //     "        <TR> <TD>Attribute</TD><TD>Value</TD></TR>";
+                            for (var i = 0; i < d[1].length; i++) {
+                                dataInHtml += "<TR> <TD>" + d[0][i] + "</TD><TD>" + d[1][i] + "</TD></TR>";
+                            }
+                            dataInHtml += "</TABLE>";
+                            //}
+                            $('#statDiv').html('');
+                            $('#statDiv').append(dataInHtml);
+                            var popChartHtml = ' <div id="piechart_3d" style="width: 340px; height: 360px;"></div>';
+
+                            // google.setOnLoadCallback(drawChart);
+
+                            //var popup = map.popups[0];
+                            //popup.lonlat = new OpenLayers.LonLat(s, x0[1]);
+                            //popup.setContentHTML('');
+                            //popup.setContentHTML(popChartHtml);
+                            //drawChart();
+                            //popup.setContentHTML("<div>" + "<script language=\"javascript\" type=\"text/javascript\"> function popupClose(){var popup=map.popups[0]; popup.clear();}<\/script>" + "<input type=\"button\" onclick=\"popupClose();\" value=\"X\"/> " + dataInHtml + "</div>");
+                            // popup.show();
+                            $("#modalBody").append(popChartHtml);
+                            $('#pieChartHeader').html('');
+                            $('#pieChartHeader').html(data.Attr_Name);
+                            $('#pieChart').html();
+                            $('#pieChart').html(popChartHtml);
+                            drawChart(d[0], d[1]);
+                            //$("#myModal").modal("show");
+                            map.redrawLayer("HightLightDynamicOverlay");
+                            $('#pieChart').on('click', function () {
+                                drawChart(d[0], d[1]);
+                                $("#myModal").modal("show");
+                            });
+
+                        }
+                    });
+                }
+                $('#overlay').remove();
+            });
+
+            $("#sub_attribute").on("change", function () {
+               loading();
+                showData();
+                var s;
+                var x;
+                var x0;
+                var x2 = $('#sub_attribute').children(':selected').text();
+                var prov = $("#prov").children(":selected").attr("id");   // Province ID
+                var dist = $("#districts").children(":selected").attr("id");   // District ID
+                var distVal = $("#districts").val();
+                var teh = $("#tahsils").val();     // Tehsil name
+                var sat = $(this).val();       // sub_attribute ID
+                //var gnd = $("#gndr").val();    // gender
+
+                var att = $("#att").val();       // Attribute
+                if (prov != null && distVal == null && teh ==null && att != null)
+                {
+                    var data = {};
+                    data.Prov_ID = prov;
+                   // data.Dist_ID = dist;
+                   // data.Teh_ID = teh;
+                    data.Attr_Name = att;
+                    // data.Gender = gnd;
+                    data.SubAttr = sat;
+                    map.ajaxCallAction('@ViewContext.RouteData.Values["Controller"].ToString()', 'changeSubAttribute', { a: prov,b:null,c:null ,d: att, e: sat }, function (result) {
+
+                        //showColorDiv();
+                        x = result.get_responseData().trim();
+                        // x = x.trim();
+                        x0 = x.split(',');
+                        s = x0[0].replace(/^"+/, "");
+
+
+                        map.redrawLayer("StaticOverlay");
+                        map.redrawLayer("HightLightDynamicOverlay");
+                        // var mapp = Session["map"];
+
+                    });
+                    $.ajax({
+                        url: "/Map1/OnlyProvince",
+                        type: "POST",
+                        data: JSON.stringify(data),
+                        dataType: "JSON",
+                        contentType: "Application/JSON",
+                        async: true,
+                        success: function (d) {
+                            
+                            var data0 = d[0];//years
+                            var data1 = d[1];//
+                            var data2 = d[2];
+                            var data3 = d[3];
+                            var data4 = d[4];
+                            var data5 = d[5];
+                            var data6 = d[6];
+                            //------------------------------------------------------
+
+                            var text = document.getElementById('att').options[document.getElementById('att').selectedIndex].text;
+
+                            var arr0 = new Array();
+
+
+                            var dataInHtml = "<TABLE class=\"table\"><TR>" +
+                               "<TH COLSPAN=\"2\">" +
+                                "  <H3>"+x2+"</H3>" +
+                               "</TH>" +
+                            "</TR>";
+                            //                          var dataInHtml="<div class=\"container\">"+
+                            //"<h2>Data year wise</h2>"+
+                            //"<ul class=\"nav nav-tabs\">"+
+                            // " <li class=\"active\"><a href=\"#menu0\">2006</a></li>"+
+                            //  "<li><a href=\"#menu1\">2007</a></li>"+
+                            //  "<li><a href=\"#menu2\">2008</a></li></ul>"+
+                            //"<div class=\"tab-content\">";
+
+
+                            //    for(var j=0;j<data0.length;j++){
+                            //        var k=1;//data year wisely
+                            //        dataInHtml+="<div id=\"menu"+j+"\" class=\"tab-pane fade\"><h3>"+d[0][j]+"</h3>";
+                            //        dataInHtml+= "<TABLE><TR>" +
+                            //    "<TH COLSPAN=\"2\">" +
+                            //     "  <H3><BR>Data of Area</H3>" +
+                            //    "</TH>" +
+                            // "</TR>" +
+                            //    "<TH>Attribute</TH>" +
+                            //    "<TH>Value</TH>" +
+                            //     "        <TR> <TD>Attribute</TD><TD>Value</TD></TR>";
+                            for (var i = 1; i < d[1].length; i++) {
+                                dataInHtml += "<TR> <TD>" + d[1][i] + "</TD><TD>" + d[2][i] + "</TD></TR>";
+                            }
+                            dataInHtml += "</TABLE>";
+                            //}
+
+
+                            var popup = map.popups[0];
+                            popup.lonlat = new OpenLayers.LonLat(s, x0[1]);
+                            popup.setContentHTML('');
+                            popup.setContentHTML("<div>" + "<script language=\"javascript\" type=\"text/javascript\"> function popupClose(){var popup=map.popups[0]; popup.clear();}<\/script>" + "<input type=\"button\" onclick=\"popupClose();\" value=\"X\"/> " + dataInHtml + "</div>");
+                            popup.show();
+
+                            map.redrawLayer("HightLightDynamicOverlay");
+
+
+                        }
+                    });
+                }
+                if (prov != null && distVal !=null && teh == null && att != null)
+                {
+                    var data = {};
+                    data.Prov_ID = prov;
+                    data.Dist_ID = dist;
+                    // data.Teh_ID = teh;
+                    data.Attr_Name = att;
+                    // data.Gender = gnd;
+                    data.SubAttr = sat;
+                    map.ajaxCallAction('@ViewContext.RouteData.Values["Controller"].ToString()', 'changeSubAttribute', { a: prov, b: dist,c:null, d: att, e: sat }, function (result) {
+
+                        //showColorDiv();
+                        x = result.get_responseData().trim();
+                        // x = x.trim();
+                        x0 = x.split(',');
+                        s = x0[0].replace(/^"+/, "");
+
+
+                        map.redrawLayer("StaticOverlay");
+                        map.redrawLayer("HightLightDynamicOverlay");
+                        // var mapp = Session["map"];
+
+                    });
+                    $.ajax({
+                        url: "/Map1/OnlyProvinceAndDistrict",
+                        type: "POST",
+                        data: JSON.stringify(data),
+                        dataType: "JSON",
+                        contentType: "Application/JSON",
+                        async: true,
+                        success: function (d) {
+
+                            var data0 = d[0];//years
+                            var data1 = d[1];//
+                            var data2 = d[2];
+                            var data3 = d[3];
+                            var data4 = d[4];
+                            var data5 = d[5];
+                            var data6 = d[6];
+                            //------------------------------------------------------
+
+                            var text = document.getElementById('att').options[document.getElementById('att').selectedIndex].text;
+
+                            var arr0 = new Array();
+
+
+                            var dataInHtml = "<TABLE class=\"table\"><TR>" +
+                               "<TH COLSPAN=\"2\">" +
+                                "  <H3>" +x2 + "</H3>" +
+                               "</TH>" +
+                            "</TR>";
+                            //                          var dataInHtml="<div class=\"container\">"+
+                            //"<h2>Data year wise</h2>"+
+                            //"<ul class=\"nav nav-tabs\">"+
+                            // " <li class=\"active\"><a href=\"#menu0\">2006</a></li>"+
+                            //  "<li><a href=\"#menu1\">2007</a></li>"+
+                            //  "<li><a href=\"#menu2\">2008</a></li></ul>"+
+                            //"<div class=\"tab-content\">";
+
+
+                            //    for(var j=0;j<data0.length;j++){
+                            //        var k=1;//data year wisely
+                            //        dataInHtml+="<div id=\"menu"+j+"\" class=\"tab-pane fade\"><h3>"+d[0][j]+"</h3>";
+                            //        dataInHtml+= "<TABLE><TR>" +
+                            //    "<TH COLSPAN=\"2\">" +
+                            //     "  <H3><BR>Data of Area</H3>" +
+                            //    "</TH>" +
+                            // "</TR>" +
+                            //    "<TH>Attribute</TH>" +
+                            //    "<TH>Value</TH>" +
+                            //     "        <TR> <TD>Attribute</TD><TD>Value</TD></TR>";
+                            for (var i = 1; i < d[1].length; i++) {
+                                dataInHtml += "<TR> <TD>" + d[1][i] + "</TD><TD>" + d[2][i] + "</TD></TR>";
+                            }
+                            dataInHtml += "</TABLE>";
+                            //}
+
+
+                            var popup = map.popups[0];
+                            popup.lonlat = new OpenLayers.LonLat(s, x0[1]);
+                            popup.setContentHTML('');
+                            popup.setContentHTML("<div>" + "<script language=\"javascript\" type=\"text/javascript\"> function popupClose(){var popup=map.popups[0]; popup.clear();}<\/script>" + "<input type=\"button\" onclick=\"popupClose();\" value=\"X\"/> " + dataInHtml + "</div>");
+                            popup.show();
+
+                            map.redrawLayer("HightLightDynamicOverlay");
+
+
+                        }
+                    });
+                }
+                if (prov != null && distVal != null && teh != null && att != null)
+                {
+                    var data = {};
+                    data.Prov_ID = prov;
+                    data.Dist_ID = dist;
+                    data.Teh_Name = teh;
+                    data.Attr_Name = att;
+                    // data.Gender = gnd;
+                    data.SubAttr = sat;
+                    map.ajaxCallAction('@ViewContext.RouteData.Values["Controller"].ToString()', 'changeSubAttribute', { a: prov, b: dist, c: teh, d: att, e: sat }, function (result) {
+                        
+                        //showColorDiv();
+                        x = result.get_responseData().trim();
+                       // x = x.trim();
+                        x0 = x.split(',');
+                        s = x0[0].replace(/^"+/, "");
+
+
+                        map.redrawLayer("StaticOverlay");
+                        map.redrawLayer("HightLightDynamicOverlay");
+                        // var mapp = Session["map"];
+
+                    });
+                    $.ajax({
+                        url: "/Map1/changeSubAttribute2",
+                        type: "POST",
+                        data: JSON.stringify(data),
+                        dataType: "JSON",
+                        contentType: "Application/JSON",
+                        async: true,
+                        success: function (d) {
+
+                            var data0 = d[0];//years
+                            var data1 = d[1];//
+                            var data2 = d[2];
+                            var data3 = d[3];
+                            var data4 = d[4];
+                            var data5 = d[5];
+                            var data6 = d[6];
+                            //------------------------------------------------------
+
+                            var text = document.getElementById('att').options[document.getElementById('att').selectedIndex].text;
+
+                            var arr0 = new Array();
+
+
+                            var dataInHtml = "<TABLE class=\"table\"><TR>" +
+                               "<TH COLSPAN=\"2\">" +
+                                "  <H3>" + x2 + "</H3>" +
+                               "</TH>" +
+                            "</TR>";
+                            //                          var dataInHtml="<div class=\"container\">"+
+                            //"<h2>Data year wise</h2>"+
+                            //"<ul class=\"nav nav-tabs\">"+
+                            // " <li class=\"active\"><a href=\"#menu0\">2006</a></li>"+
+                            //  "<li><a href=\"#menu1\">2007</a></li>"+
+                            //  "<li><a href=\"#menu2\">2008</a></li></ul>"+
+                            //"<div class=\"tab-content\">";
+
+
+                            //    for(var j=0;j<data0.length;j++){
+                            //        var k=1;//data year wisely
+                            //        dataInHtml+="<div id=\"menu"+j+"\" class=\"tab-pane fade\"><h3>"+d[0][j]+"</h3>";
+                            //        dataInHtml+= "<TABLE><TR>" +
+                            //    "<TH COLSPAN=\"2\">" +
+                            //     "  <H3><BR>Data of Area</H3>" +
+                            //    "</TH>" +
+                            // "</TR>" +
+                            //    "<TH>Attribute</TH>" +
+                            //    "<TH>Value</TH>" +
+                            //     "        <TR> <TD>Attribute</TD><TD>Value</TD></TR>";
+                            for (var i = 1; i < d[1].length; i++) {
+                                dataInHtml += "<TR> <TD>" + d[1][i] + "</TD><TD>" + d[2][i] + "</TD></TR>";
+                            }
+                            dataInHtml += "</TABLE>";
+                            //}
+                            $('#statDiv').html('');
+                            $('#statDiv').append(dataInHtml);
+
+                            var popup = map.popups[0];
+                            popup.lonlat = new OpenLayers.LonLat(s, x0[1]);
+                            popup.setContentHTML('');
+                            popup.setContentHTML("<div>" + "<script language=\"javascript\" type=\"text/javascript\"> function popupClose(){var popup=map.popups[0]; popup.clear();}<\/script>" + "<input type=\"button\" onclick=\"popupClose();\" value=\"X\"/> " + dataInHtml + "</div>");
+                            popup.show();
+
+                            map.redrawLayer("HightLightDynamicOverlay");
+
+
+                        }
+                    });
+                }
+            });
+            $('#overlay').remove();
+        });
+        function showColorDiv()
+        {
+            var colorDiv=$('#colorDiv');
+            //colorDiv.append('<ul>');
+
+            
+          
+            @*for (var i = 0; i < colorCount; i++) {
+                colorDiv.append('<li><span><input class="legend" style="background-color:'+ @colorsInFamily[i]+';" type="button"></span><span>10000</span></li>');
+            }*@
+            //colorDiv.append('</ul>');
+            $('#colorDiv').show();
+        }
+    </script>
+    <div id="wait"  style="display: none; width: 69px; height: 89px; border: 1px solid black; position: absolute; z-index: 9999; top: 50%; left: 50%; padding: 2px;">
+        <img alt="Loading..." src="~/images/lazy-loading-image.gif" width="64" height="64" /></div>
+    
+    <div class="container">
+        
+        <!-- Search Bar --><br /><br />
+        <div class=" col-md-5 col-sm-push-3" >
+            <div class="right-inner-addon">
+                <i class="icon-search"></i>
+                <form onsubmit="return codeAddress();">
+                    <input id="my-address" type="search"
+                           class="form-control"
+                           placeholder="Search Place" onsubmit="return codeAddress();" />
+                </form>
+            </div>
+        </div>
+        <br /><br />
+        <!--/search bar-->
+        <div class="row">
+            <div class="col-md-3 col-sm-3">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        Choose  Location
+                    </div>
+                    <div class="panel-body">
+                        <!--loc-->
+                        <div id="instrux-body">
+                            <div id="instrux-text">
+                                <br />
+                                <select id="prov" class="dropdown-header">
+                                    <option value="" disabled selected>Province</option>
+                                    <option id="2149">Azad Kashmir</option>
+                                    <option id="2150">Baluchistan</option>
+                                    <option id="2151">F.A.T.A.</option>
+                                    <option id="2152">F.C.T.</option>
+                                    <option id="2153">N.W.F.P.</option>
+                                    <option id="2154">  Northern Areas</option>
+                                    <option id="2155">Punjab</option>
+                                    <option id="2156">Sind</option>
+                                </select>
+                                <br />
+                                <select id="divisions" class="dropdown-header " style="display:none;">
+                                    <option value="" disabled selected>Division</option>
+                                </select>
+                                <br />
+                                <select id="districts" class="dropdown-header " style="display:none;">
+                                    <option value="" disabled selected>Districts</option>
+                                </select>
+                                <br />
+                                <select id="tahsils" class="dropdown-header" style="display:none;">
+                                    <option value="" disabled selected>Tahsil</option>
+                                </select>
+
+                            </div>
+                        </div>
+                        <!--/loc-->
+                    </div>
+                </div>
+                <br />
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        Choose  Information
+                    </div>
+                    <div class="panel-body">
+                        <!--att-->
+                        <select id="att" class="dropdown-header">
+                            <option value="" disabled selected>Select Attribute</option>
+                            <option value="Merital Status">Merital Status</option>
+                            <option value="Education level">Education level</option>
+                            <option value="Literacy">Literacy</option>
+                            <option value="Religion">Religion</option>
+                            <option value="Field of Education">Field of Education</option>
+                            <option value="Mother Language">Mother Language</option>
+                            <option value="Can Read">Can Read</option>
+                        </select>
+                        <!--/att-->
+                        <br />
+                        <!--sub att-->
+                        <select id="sub_attribute" class="dropdown-header">
+                            <option value="" disabled selected>Sub_Attribute</option>
+
+                        </select>
+                        <!--/sub att-->
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-5">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        Map
+                    </div>
+                    <div class="panel-body">
+                        <!-- Map -->
+                        <div id="PakMap">
+
+                            @{Html.ThinkGeo().Map(ViewBag.map).OnClientClick("mapClick").Render();}
+                        </div>
+                        <!--/Map-->
+                        </div>
+                    </div>
+                    </div>
+            <div class="col-md-3 col-sm-4">
+                <div class="panel panel-primary">
+                    <div id="pieChartHeader" class="panel-heading">
+                        
+                    </div>
+                    <div id="pieChart" class="panel-body">
+
+                    </div>
+                </div>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        Statistical Information of Area
+                    </div>
+                    <div id="statDiv" class="panel-body">
+
+                    </div>
+                    @*<div class="panel-footer">
+                    Panel Footer
+                </div>*@
+                </div>
+            </div>
+        </div>
+         <!--row-->
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        Map
+                    </div>
+                    <div class="panel-body relative">
+                        @{Html.ThinkGeo().Map(ViewBag.map2).OnClientClick("mapClick").Render();}
+                        <div id="legendDiv" class="absolute">
+                            <div id="colorHeader">
+
+                            </div>
+
+                            <ul>
+                                <li><span><input class="legend" style="background-color: #ff0000;" type="button"></span><span>1%-----10%</span></li>
+                                <li><span><input class="legend" style="background-color: #00ff00;" type="button"></span><span>11%-----20%</span></li>
+                                <li><span><input class="legend" style="background-color: #0000ff;" type="button"></span><span>21%-----30%</span></li>
+                                <li><span><input class="legend" style="background-color: orange;" type="button"></span><span>31%-----40%</span></li>
+                                <li><span><input class="legend" style="background-color: yellow;" type="button"></span><span>41%-----50%</span></li>
+                                <li><span><input class="legend" style="background-color: violet;" type="button"></span><span>51%-----60%</span></li>
+                                <li><span><input class="legend" style="background-color: skyblue;" type="button"></span><span>61%-----70%</span></li>
+                                <li><span><input class="legend" style="background-color: silver;" type="button"></span><span>71%-----80%</span></li>
+                                <li><span><input class="legend" style="background-color: pink;" type="button"></span><span>81%-----90%</span></li>
+                                <li><span><input class="legend" style="background-color: brown;" type="button"></span><span>91%-----100%</span></li>
+                                <li><span><input class="legend" style="background-color: black;" type="button"></span><span>No Data Region</span></li>
+                            </ul>
+
+                        </div>
+
+                    </div>
+                    @*<div class="panel-footer">
+                        Panel Footer
+                    </div>*@
+                </div>
+            </div>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <input type="button" onclick="closeModal();" class="close" style="align-self:center;color:blue;" value="X"/>
+                    <div class="modal-header">
+                        <h4 class="modal-title">3D Pie Chart</h4>
+                    </div>
+                    <div id="modalBody" class="modal-body">
+                     
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        </div><!--con-->
+    <!-- . FOOTER  -->
+    <div id="footer-sec">
+        &copy; 2015 NDV | Design By : Shehraz Khan
+    </div>
+    <!-- /. FOOTER  -->
+                <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
+                <script language="javascript" type="text/javascript">
+                    function closeModal() {
+                        $('#myModal').modal("hide");
+                    }
+                    function popupClose() {
+                        var popup = map.popups[0];
+                        popup.hide();
+                    }
+                    $(document).ready(function () {
+                        $(".nav-tabs a").click(function () {
+                            $(this).tab('show');
+                        });
+                    });
+                    function btnFind_Click(place, sf) {
+
+                        var txtFeatureIdObj = place;
+                        map.ajaxCallAction("Map1", "FindFeature", { featureID: place, layer: sf }, function (result) {
+
+                            //var popup = Map1.popups[0];
+                            //popup.show();
+                            //popup.setContentHTML("<div style='color:#0065ce;font-size:10px;font-family:arial;'>The selected country is " + result.get_responseData().split('^')[1] + "</div>");
+                            //var lonlat = result.get_responseData().split('^')[0].split(',');
+                            //popup.lonlat = new OpenLayers.LonLat(lonlat[0], lonlat[1]);
+                            //popup.updatePosition();
+                            var parameters = result.get_responseData().split("|");
+                            var extent = parameters[0].split(",");
+
+
+                            var bbox = new OpenLayers.Bounds(extent[0], extent[1], extent[2], extent[3]);
+                            map.zoomToExtent(bbox);
+                            map.redrawLayer("HightLightDynamicOverlay");
+                   
+
+                        });
+                    }
+                    //search bar func
+                    function initialize() {
+                        var address = (document.getElementById('my-address'));
+                        var autocomplete = new google.maps.places.Autocomplete(address);
+                        autocomplete.setTypes(['geocode']);
+                        google.maps.event.addListener(autocomplete, 'place_changed', function () {
+                            var place = autocomplete.getPlace();
+                            if (!place.geometry) {
+                                return;
+                            }
+
+                            var address = '';
+                            if (place.address_components) {
+                                address = [
+                                    (place.address_components[0] && place.address_components[0].short_name || ''),
+                                    (place.address_components[1] && place.address_components[1].short_name || ''),
+                                    (place.address_components[2] && place.address_components[2].short_name || '')
+                                ].join(' ');
+                            }
+                        });
+                    }
+                    function codeAddress() {
+                        var lat;
+                        var long;
+                        geocoder = new google.maps.Geocoder();
+                        var address = document.getElementById("my-address").value;
+                        geocoder.geocode({ 'address': address }, function (results, status) {
+                            if (status == google.maps.GeocoderStatus.OK) {
+
+                                lat = results[0].geometry.location.lat();
+                                long = results[0].geometry.location.lng();
+                                map.ajaxCallAction('@ViewContext.RouteData.Values["Controller"].ToString()', 'FindFeatureClick', { x: long, y: lat }, function (result) {
+                                    var param = { x: long, y: lat };
+
+                                    map.ajaxCallAction('@ViewContext.RouteData.Values["Controller"].ToString()', 'ZoomToShape', param, callback);
+                                    map.redrawLayer("HightLightDynamicOverlay");
+                                    //swal({ title: " <small>Info</small>!", text: result.get_responseData(), html: true });
+                                    //infoPopup.setContentHTML(result.get_responseData());
+                                    //infoPopup.show();
+                                });
+
+
+                            }
+
+                            else {
+                                alert("Geocode was not successful for the following reason: " + status);
+                            }
+                        });
+
+                        return false;
+                    }
+                    google.maps.event.addDomListener(window, 'load', initialize);
+                </script>
+    <script>
+        function showData()
+        {
+
+            var prov = $("#prov").children(":selected").attr("id");   // Province ID
+            var provVal = $('#prov').val();
+            var dist = $("#districts").children(":selected").attr("id");   // District ID
+            var distVal = $("#districts").val();
+            var teh = $("#tahsils").val();     // Tehsil name   
+            var loc;
+            if (prov != null && distVal != null && teh != null )
+            {
+                loc = "Tehsils";//Districts Provinces
+               
+            }
+            if (prov != null && distVal != null && teh == null) {
+                loc = "Districts";// Provinces
+               
+            }
+            if (prov != null && distVal == null && teh == null) {
+                loc = "Provinces";
+               
+            }
+            var att = $('#att').val();
+            var sub_att = $('#sub_attribute').val();
+            var sub_attr_name =$('#sub_attribute').children(':selected').text();
+           
+            if (loc != null && att != null && sub_att!=null)
+            {
+
+                map2.ajaxCallAction('Map', 'showDataOnMap', { a: loc, b: att ,c:sub_att,d:sub_attr_name,e:provVal,f:distVal,g:teh}, function (result) {
+                    map2.redrawLayer("StaticOverlay2");
+                    $('.absolute').css('visibility', 'visible');
+                    $('#colorHeader').html('');
+                    $('#colorHeader').append('<span class="label label-info" >' + sub_attr_name + '</span>');
+                });
+              
+            }
+            if (prov != null && distVal != null && teh != null) {
+                loc = "Tehsils";//Districts Provinces
+                map2.ajaxCallAction("Map1", "FindFeature2", { layer: "TEHSIL" }, function (result) {
+                    var parameters = result.get_responseData().split("|");
+                    var extent = parameters[0].split(",");
+                    var bbox = new OpenLayers.Bounds(extent[0], extent[1], extent[2], extent[3]);
+                    map2.zoomToExtent(bbox);
+                });
+            }
+            if (prov != null && distVal != null && teh == null) {
+                loc = "Districts";
+                map2.ajaxCallAction("Map1", "FindFeature2", { layer: "NAME_3" }, function (result) {
+                    var parameters = result.get_responseData().split("|");
+                    var extent = parameters[0].split(",");
+                    var bbox = new OpenLayers.Bounds(extent[0], extent[1], extent[2], extent[3]);
+                    map2.zoomToExtent(bbox);
+                });
+            }
+            if (prov != null && distVal == null && teh == null) {
+                loc = "Provinces";
+                map2.ajaxCallAction("Map1", "FindFeature2", { layer: "NAME_1" }, function (result) {
+                    var parameters = result.get_responseData().split("|");
+                    var extent = parameters[0].split(",");
+                    var bbox = new OpenLayers.Bounds(extent[0], extent[1], extent[2], extent[3]);
+                    map2.zoomToExtent(bbox);
+                });
+            }
+            $('#overlay').remove();
+        }
+    </script>
+    <!-- JQUERY SCRIPTS -->
+    <script src="~/JS/jquery-1.10.2.js"></script>
+    <script src="~/JS/jquery-1.11.3.js"></script>
+    <!-- BOOTSTRAP SCRIPTS -->
+    <script src="~/JS/bootstrap.js"></script>
+    <!-- METISMENU SCRIPTS -->
+    <script src="~/JS/jquery.metisMenu.js"></script>
+    <!-- CUSTOM SCRIPTS -->
+    <script src="~/JS/custom.js"></script>
+</body>
+
+</html>

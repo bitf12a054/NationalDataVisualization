@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="0382a841d5864d89be30c88991a456df" Name="Diagram1" ZoomLevel="73">
+        <EntityTypeShape EntityType="NDVModel.Area" Width="1.5" PointX="0.75" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="NDVModel.Attribute" Width="1.5" PointX="12.75" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="NDVModel.Attribute_Info" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NDVModel.Coment" Width="1.5" PointX="10.25" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NDVModel.DbfToNDV" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NDVModel.District" Width="1.5" PointX="17" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="NDVModel.Education_Fields" Width="1.5" PointX="3" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="NDVModel.Eucation" Width="1.5" PointX="3" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NDVModel.File" Width="1.5" PointX="8" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="NDVModel.Literacy" Width="1.5" PointX="3" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NDVModel.Location" Width="1.5" PointX="17" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NDVModel.Mother_Language" Width="1.5" PointX="3" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NDVModel.Multi_Value" Width="1.5" PointX="13" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="NDVModel.New_People_Data" Width="1.5" PointX="13" PointY="13.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="NDVModel.Population" Width="1.5" PointX="3" PointY="16.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="NDVModel.Post" Width="1.5" PointX="10.25" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="NDVModel.Problem_Post" Width="1.5" PointX="8" PointY="10" IsExpanded="true" />
+        <EntityTypeShape EntityType="NDVModel.Province" Width="1.5" PointX="14.75" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="NDVModel.Read_Holly_Book" Width="1.5" PointX="3" PointY="19.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="NDVModel.Scenerio" Width="1.5" PointX="10.75" PointY="13.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="NDVModel.Sub_Attribute" Width="1.5" PointX="15" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="NDVModel.Tehsil" Width="1.5" PointX="9.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NDVModel.Town" Width="1.5" PointX="11.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NDVModel.Union_Council" Width="1.5" PointX="5.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NDVModel.User_Info" Width="1.5" PointX="5.75" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="NDVModel.UserMessage" Width="1.5" PointX="7.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NDVModel.Value" Width="1.5" PointX="15.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NDVModel.Verification" Width="1.5" PointX="12.5" PointY="3.75" IsExpanded="true" />
+        <AssociationConnector Association="NDVModel.AreaFK" ManuallyRouted="false" />
+        <AssociationConnector Association="NDVModel.FK_Education_Fields" ManuallyRouted="false" />
+        <AssociationConnector Association="NDVModel.FK_Eucation" ManuallyRouted="false" />
+        <AssociationConnector Association="NDVModel.FK_Literacy_ToTable" ManuallyRouted="false" />
+        <AssociationConnector Association="NDVModel.FK_Mother_Language" ManuallyRouted="false" />
+        <AssociationConnector Association="NDVModel.FK_Read_Holly_Book" ManuallyRouted="false" />
+        <AssociationConnector Association="NDVModel.xyzFK" ManuallyRouted="false" />
+        <AssociationConnector Association="NDVModel.FK_Coments" ManuallyRouted="false" />
+        <AssociationConnector Association="NDVModel.FK_Coments_To_Post" ManuallyRouted="false" />
+        <AssociationConnector Association="NDVModel.ProvinceFK" ManuallyRouted="false" />
+        <AssociationConnector Association="NDVModel.FK_Files" ManuallyRouted="false" />
+        <AssociationConnector Association="NDVModel.FK2_Post" ManuallyRouted="false" />
+        <AssociationConnector Association="NDVModel.FK_Location_ToPro" ManuallyRouted="false" />
+        <AssociationConnector Association="NDVModel.FK_Multi_Value_To_Scenerio" ManuallyRouted="false" />
+        <AssociationConnector Association="NDVModel.FK_New_People_Data_Scenerio" ManuallyRouted="false" />
+        <AssociationConnector Association="NDVModel.FK_Verification" ManuallyRouted="false" />
+        <AssociationConnector Association="NDVModel.FK1_Post" ManuallyRouted="false" />
+        <AssociationConnector Association="NDVModel.FK_Problem_Post_To_UID" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="NDVModel.New_Place_Data" Width="1.5" PointX="13" PointY="16.875" />
+        <AssociationConnector Association="NDVModel.FK_New_Place_Data_Scenerio" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

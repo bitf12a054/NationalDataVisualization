@@ -1,0 +1,1195 @@
+﻿@{
+    ViewBag.Title = "ManualDataEntry";
+    Layout = null;
+
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Manual Data Entry</title>
+    <link rel="icon" href="/Images/LOGO.jpg">
+
+    <!-- Bootstrap Core CSS -->
+    <link href="/CSS/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Custom CSS -->
+    <link href="/CSS/StyleSheet1.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="/CSS/full-slider.css" rel="stylesheet">
+    <link href="/font-awesome-4.3.0/font-awesome-4.3.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+    <script src="~/JS/jquery-ui.min.js"></script>
+    <script src="~/JS/jquery-1.11.3.js"></script>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+
+    <script src="~/JS/sweetalert.min.js"></script>
+    <link href="~/CSS/sweetalert.css" rel="stylesheet" />
+
+    <script src="~/JS/jquery-ui.min.js"></script>
+    <script src="~/JS/jquery-1.11.3.js"></script>
+    <link href="~/JS/morris.css" rel="stylesheet" />
+    <script src="~/JS/morris.min.js"></script>
+    <script src="~/JS/morris.js"></script>
+    <script src="~/JS/prettify.js"></script>
+    <script src="~/JS/rapheal.js"></script>
+    <script src="~/JS/example.js"></script>
+
+    <script src="~/JS/jquery.flot.js"></script>
+    <script src="~/JS/jquery.flot.crosshair.js"></script>
+    <script src="~/JS/d3.min.js"></script>
+
+    <script src="~/JS/js/jquery-1.9.1.min.js"></script>
+    <script src="~/JS/js/jssor.core.js"></script>
+    <script src="~/JS/js/jssor.slider.js"></script>
+    <script src="~/JS/js/jssor.utils.js"></script>
+
+    <script src="https://www.google.com/jsapi"></script>
+    <script>google.load('visualization', '1', { 'packages': ['geomap'] });</script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+    <!-- Mini Slider -->
+    <script type="text/javascript">
+        jQuery(document).ready(function ($) {
+            var options = {
+                $AutoPlay: true,                                    //[Optional] Whether to auto play, to enable slideshow, this option must be set to true, default value is false
+                $AutoPlayInterval: 4000,                            //[Optional] Interval (in milliseconds) to go for next slide since the previous stopped if the slider is auto playing, default value is 3000
+                $PauseOnHover: 1,                                   //[Optional] Whether to pause when mouse over if a slider is auto playing, 0 no pause, 1 pause for desktop, 2 pause for touch device, 3 pause for desktop and touch device, default value is 1
+
+                $ArrowKeyNavigation: true,   			            //[Optional] Allows keyboard (arrow key) navigation or not, default value is false
+                $SlideDuration: 800,                                //[Optional] Specifies default duration (swipe) for slide in milliseconds, default value is 500
+                $MinDragOffsetToSlide: 20,                          //[Optional] Minimum drag offset to trigger slide , default value is 20
+                //$SlideWidth: 600,                                 //[Optional] Width of every slide in pixels, default value is width of 'slides' container
+                //$SlideHeight: 300,                                //[Optional] Height of every slide in pixels, default value is height of 'slides' container
+                $SlideSpacing: 0, 					                //[Optional] Space between each slide in pixels, default value is 0
+                $DisplayPieces: 1,                                  //[Optional] Number of pieces to display (the slideshow would be disabled if the value is set to greater than 1), the default value is 1
+                $ParkingPosition: 0,                                //[Optional] The offset position to park slide (this options applys only when slideshow disabled), default value is 0.
+                $UISearchMode: 1,                                   //[Optional] The way (0 parellel, 1 recursive, default value is 1) to search UI components (slides container, loading screen, navigator container, arrow navigator container, thumbnail navigator container etc).
+                $PlayOrientation: 1,                                //[Optional] Orientation to play slide (for auto play, navigation), 1 horizental, 2 vertical, default value is 1
+                $DragOrientation: 1,                                //[Optional] Orientation to drag slide, 0 no drag, 1 horizental, 2 vertical, 3 either, default value is 1 (Note that the $DragOrientation should be the same as $PlayOrientation when $DisplayPieces is greater than 1, or parking position is not 0)
+
+                $ArrowNavigatorOptions: {                       //[Optional] Options to specify and enable arrow navigator or not
+                    $Class: $JssorArrowNavigator$,              //[Requried] Class to create arrow navigator instance
+                    $ChanceToShow: 1,                               //[Required] 0 Never, 1 Mouse Over, 2 Always
+                    $AutoCenter: 2,                                 //[Optional] Auto center arrows in parent container, 0 No, 1 Horizontal, 2 Vertical, 3 Both, default value is 0
+                    $Steps: 1                                       //[Optional] Steps to go for each navigation request, default value is 1
+                },
+
+                $ThumbnailNavigatorOptions: {
+                    $Class: $JssorThumbnailNavigator$,              //[Required] Class to create thumbnail navigator instance
+                    $ChanceToShow: 2,                               //[Required] 0 Never, 1 Mouse Over, 2 Always
+
+                    $ActionMode: 1,                                 //[Optional] 0 None, 1 act by click, 2 act by mouse hover, 3 both, default value is 1
+                    $AutoCenter: 0,                                 //[Optional] Auto center thumbnail items in the thumbnail navigator container, 0 None, 1 Horizontal, 2 Vertical, 3 Both, default value is 3
+                    $Lanes: 1,                                      //[Optional] Specify lanes to arrange thumbnails, default value is 1
+                    $SpacingX: 3,                                   //[Optional] Horizontal space between each thumbnail in pixel, default value is 0
+                    $SpacingY: 3,                                   //[Optional] Vertical space between each thumbnail in pixel, default value is 0
+                    $DisplayPieces: 10,                              //[Optional] Number of pieces to display, default value is 1
+                    $ParkingPosition: 260,                          //[Optional] The offset position to park thumbnail
+                    $Orientation: 1,                                //[Optional] Orientation to arrange thumbnails, 1 horizental, 2 vertical, default value is 1
+                    $DisableDrag: false                            //[Optional] Disable drag or not, default value is false
+                }
+            };
+
+            var jssor_slider1 = new $JssorSlider$("slider1_container", options);
+
+            //responsive code begin
+            //you can remove responsive code if you don't want the slider scales while window resizes
+            function ScaleSlider() {
+                var bodyWidth = document.body.clientWidth;
+                if (bodyWidth)
+                    jssor_slider1.$SetScaleWidth(Math.min(bodyWidth, 800));
+                else
+                    window.setTimeout(ScaleSlider, 30);
+            }
+
+            ScaleSlider();
+
+            if (!navigator.userAgent.match(/(iPhone|iPod|iPad|BlackBerry|IEMobile)/)) {
+                $(window).bind('resize', ScaleSlider);
+            }
+        });
+    </script>
+    <!-- Arrow Navigator Skin Begin -->
+    <style type="text/css">
+        .jssora07l, .jssora07r, .jssora07ldn, .jssora07rdn {
+            position: absolute;
+            cursor: pointer;
+            display: block;
+            background: url(Images/a07.png) no-repeat;
+            overflow: hidden;
+        }
+
+        .jssora07l {
+            background-position: -5px -35px;
+        }
+
+        .jssora07r {
+            background-position: -65px -35px;
+        }
+
+        .jssora07l:hover {
+            background-position: -125px -35px;
+        }
+
+        .jssora07r:hover {
+            background-position: -185px -35px;
+        }
+
+        .jssora07ldn {
+            background-position: -245px -35px;
+        }
+
+        .jssora07rdn {
+            background-position: -305px -35px;
+        }
+    </style>
+    <!-- Thumbnail Item Skin Begin -->
+    <style type="text/css">
+        .jssort04 .w, .jssort04 .pav:hover .w {
+            position: absolute;
+            width: 60px;
+            height: 30px;
+            border: #0099FF 1px solid;
+        }
+
+        * html .jssort04 .w {
+            width: /**/ 62px;
+            height: /**/ 32px;
+        }
+
+        .jssort04 .pdn .w, .jssort04 .pav .w {
+            border-style: solid;
+        }
+
+        .jssort04 .c {
+            width: 62px;
+            height: 32px;
+            filter: alpha(opacity=45);
+            opacity: .45;
+            transition: opacity .6s;
+            -moz-transition: opacity .6s;
+            -webkit-transition: opacity .6s;
+            -o-transition: opacity .6s;
+        }
+
+        .jssort04 .p:hover .c, .jssort04 .pav .c {
+            filter: alpha(opacity=0);
+            opacity: 0;
+        }
+
+        .jssort04 .p:hover .c {
+            transition: none;
+            -moz-transition: none;
+            -webkit-transition: none;
+            -o-transition: none;
+        }
+    </style>
+
+    <!-- jQuery -->
+    <script src="/JS/jquery-1.11.3.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/JS/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+    <script src="/JS/classie.js"></script>
+    <script src="/JS/cbpAnimatedHeader.js"></script>
+
+    <!-- Contact Form JavaScript -->
+    <script src="/JS/jqBootstrapValidation.js"></script>
+    <script src="/JS/contact_me.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="/JS/agency.js"></script>
+
+    <script>
+        submitList = {};
+        jQuery(document).ready(function () {
+            $("#prov").on("change", function () {
+                //global list for using on click os submit
+
+                var x = $(this).val();
+                var data = {};
+                data.Province_ID = $(this).val();
+                submitList[0] = data.Province_ID;
+                data.District_Name = $(this).text();
+                alert(data.Province_ID);
+                alert(data.District_Name);
+                $.ajax({
+                    url: "/Home/provinceToDistrict",
+                    type: "POST",
+                    data: JSON.stringify(data),
+                    dataType: "JSON",
+                    contentType: "Application/JSON",
+                    async: true,
+                    success: function (d) {
+                        $('#dist').html('');
+                        for (var i = 0; i < d.Result1.length; i++) {
+                            if (i == 0) {
+                                $('#dist').append('<option value="" disabled selected>Select District</option>');
+                            }
+                            var obj1 = d.Result1[i];
+                            var obj2 = d.Result2[i];
+
+                            $('#dist').append($('<option>', {
+                                value: obj2,
+                                text: obj1
+                            }));
+                        }
+                    }
+                });
+            });
+
+            $("#dist").on("change", function () {
+
+                var x2 = $(this).val();
+
+                var data = {};
+                data.District_ID = $(this).val();
+                data.Tehsil_Name = $(this).text();
+                submitList[1] = data.District_ID;
+                $.ajax({
+                    url: "/Home/districtToTehsil",
+                    type: "POST",
+                    data: JSON.stringify(data),
+                    dataType: "JSON",
+                    contentType: "Application/JSON",
+                    async: true,
+                    success: function (d) {
+                        $('#teh').html('');
+                        for (var i = 0; i < d.Result1.length; i++) {
+                            if (i == 0) {
+                                $('#teh').append('<option value="" disabled selected>Select Tehsil</option>');
+                            }
+                            var obj1 = d.Result1[i];
+                            var obj2 = d.Result2[i];
+
+                            $('#teh').append($('<option>', {
+                                value: obj2,
+                                text: obj1
+                            }));
+                        }
+                    }
+                });
+            });
+
+            $("#teh").on("change", function () {
+                var x3 = $(this).val();
+
+                var data = {};
+                data.Tehsil_ID = $(this).val();
+                data.Town_Name = $(this).text();
+                submitList[2] = data.Tehsil_ID;
+                $.ajax({
+                    url: "/Home/tehsilToTown",
+                    type: "POST",
+                    data: JSON.stringify(data),
+                    dataType: "JSON",
+                    contentType: "Application/JSON",
+                    async: true,
+                    success: function (d) {
+                        $('#twn').html('');
+                        for (var i = 0; i < d.Result1.length; i++) {
+                            if (i == 0) {
+                                $('#twn').append('<option value="" disabled selected>Select Town</option>');
+                            }
+                            var obj1 = d.Result1[i];
+                            var obj2 = d.Result2[i];
+
+                            $('#twn').append($('<option>', {
+                                value: obj2,
+                                text: obj1
+                            }));
+                        }
+                    }
+                });
+            });
+
+            $("#att").on("change", function () {
+
+                var y = $(this).val();
+                if ($(this).val() == 8) {
+                    $('#test').css("visibility", "hidden");
+                    swal({
+                        title: "Select One Option",
+                        text: "",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonClass: "btn-primary",
+                        confirmButtonText: "About Place",
+                        cancelButtonText: "About People",
+                        closeOnConfirm: false,
+                        closeOnCancel: false
+                    },
+                function (isConfirm) {
+                    if (isConfirm) {
+                        swal("About Place Selected", "", "success");
+                        //$('#test').css("visibility", "hidden");
+                        //$('#tables2').css("visibility", "hidden");
+                        //$('#tables').css("visibility", "visible");
+                        document.getElementById("InputPlace").innerHTML = document.getElementById("tables").innerHTML;
+                    } else {
+                        swal("About People Selected", "", "success");
+                        //$('#test').css("visibility", "hidden");
+                        //$('#tables').css("visibility", "hidden");
+                        //$('#tables2').css("visibility", "visible");
+                        document.getElementById("InputPlace").innerHTML = document.getElementById("tables2").innerHTML;
+                    }
+                });
+                }
+                else {
+                    //$('#tables').css("visibility", "hidden");
+                    //$('#tables2').css("visibility", "hidden");
+                    //$('#test').css("visibility", "visible");
+                    document.getElementById("InputPlace").innerHTML = document.getElementById("test").innerHTML;
+                    var y = $(this).val();
+
+                    var data = {};
+                    data.Attribute_ID = $(this).val();
+                    data.Attribute_Name = $(this).text();
+
+                    submitList[3] = data.Attribute_ID;
+                    var colsData;
+                    
+                    $.ajax({
+                        url: "/Home/getColumnName/?y=" + data.Attribute_ID,
+                        type: "POST",
+                        data: JSON.stringify(data),
+                        dataType: "JSON",
+                        contentType: "Application/JSON",
+                        async: true,
+                        success: function (d) {
+                            noOfColumn = d.length;
+                            colsData = d;
+                            //alert(d +" - "+ noOfColumn);
+                            count = 1;//srial number of manula data Entry table
+                            $('#table').html('');
+                            var table = document.getElementById("table");
+                            var rowCount = table.rows.length;
+                            var row = table.insertRow(rowCount);
+
+                            for (var i = 0; i < d.length; i++) {
+                                var cel = row.insertCell(i);
+                                cel.innerHTML = d[i];
+                            }
+                        }
+                        , error: function () {
+                            alert('Sorry error somewhere.. attribute');
+                        }
+                    });
+                }
+            });
+        });
+
+        function rowGenerater() {
+            var table = document.getElementById("table");
+            if (table == null) {
+
+            }
+            else {
+                var rowCount = table.rows.length;
+                var row = table.insertRow(rowCount);
+                // serial no
+                var cel1 = row.insertCell(0);
+                cel1.id = "" + 0 + "" + count + "";
+                console.log(cel1.id);
+                cel1.innerHTML = count;
+
+                //year
+                var cel2 = row.insertCell(1);
+                cel2.id = "" + 1 + "" + count + "";
+                $("#" + cel2.id + "").append('<select id="' + "cel2" + cel2.id + '"></select>');
+                var year = new Date();
+                console.log(year.getFullYear);
+                for (var i = 1947; i < year.getFullYear() + 1 ; i++) {
+                    $("#cel2" + cel2.id + "").append('<option value="' + i + '">' + i + '</option>');
+                }
+
+                //Gender
+                var cel3 = row.insertCell(2);
+                cel3.id = "" + 2 + "" + count + "";
+                $("#" + cel3.id + "").append('<select id="' + "cel3" + cel3.id + '"><option>Male</option><option>Female</option></select>');
+
+                //Age group
+                var cel4 = row.insertCell(3);
+                cel4.id = "" + 3 + "" + count + "";
+                $("#" + cel4.id + "").append('<select id="' + "cel4" + cel4.id + '"><option>00-04</option><option>05-09</option><option>10-14</option><option>15-19</option><option>20-24</option><option>25-29</option><option>30-34</option><option>35-39</option><option>40-44</option><option>45-49</option><option>50-54</option><option>55-59</option><option>60-64</option><option>65-69</option><option>70-74</option><option>75 And Above</option></select>');
+
+                // noOfColumn is global variable
+                for (var i = 4; i < noOfColumn ; i++) {
+
+                    var cel = row.insertCell(i);
+                    var input = document.createElement("input");
+                    input.type = "text";
+                    input.id = "" + i + "" + count + "";
+                    input.class = "number-only ";
+                    cel.appendChild(input);
+                }
+                $('#submit').css("visibility", "visible");
+                $('#table').css("width", "90%");
+            }
+            count++;
+        }
+
+        function submitRecords() {
+            var list = [];
+            var table = document.getElementById("table");
+            if (table == null) {
+
+            }
+            else {
+                var noOfRow = table.rows.length;
+
+                for (var row = 1 ; row < noOfRow; row++) {
+
+                    var DataOfRows = new Array();
+
+                    for (var col = 1 ; col < noOfColumn; col++) {
+
+                        if (col < 4) {
+                            submitList[submitList.length] = $("#cel" + col + col + row + "").val();
+                            alert(submitList[submitList.length]);
+                            //DataOfRows[col - 1] = "NULL".toString();      //submitList[submitList.length];
+                        }
+                        else {
+                            submitList[submitList.length] = $("#" + col + row + "").val();
+                            alert(submitList[submitList.length]);
+                            DataOfRows[col - 4] = submitList[submitList.length];
+                        }
+                    }
+                    list.push(DataOfRows);
+                }
+
+                var id = $("#att").val();
+                var AttributeSelected = $("#att option:selected").text();
+
+                $.ajax({
+                    url: "/Home/getColumnNameOnly/?y=" + id,
+                    type: "POST",
+                    data: JSON.stringify("xyz"),
+                    dataType: "JSON",
+                    contentType: "Application/JSON",
+                    async: true,
+                    success: function (d) {
+                        var ColmNam = d;
+                        
+                        var data0 = ["2008", "2009", "2010", "2011", "2012", "2013", "2014"]; //2007,2008,2009
+                        var data1 = ColmNam; //never married
+                        var data2; // values 4
+                        alert(ColmNam);
+                        alert(list);
+                        var arr01 = new Array();
+                        var count = list.length;
+                        for (var c = 0; c < count; c++) {
+                            data2 = list.pop();
+
+                            var abc = {};
+                            abc.x = data0[c];
+
+                            abc.a = data2[0];
+                            abc.b = data2[1];
+                            abc.c = data2[2];
+                            abc.d = data2[3];
+                            abc.e = data2[4];
+                            abc.f = data2[5];
+                            abc.g = data2[6];
+                            abc.h = data2[7];
+
+                            arr01.push(abc);
+                        }
+                        //---------------------------------------------------
+                        
+                    }
+                    , error: function () {
+                        alert('Sub Attribute retreival fails');
+                    }
+                });
+
+            }
+        }
+        </script>
+
+    <!-- Restrict Input Only 4 Numbers -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script>
+    $(function () {
+        $('.number-only').keypress(function (e) {
+            if (isNaN(this.value + "" + String.fromCharCode(e.charCode))) return false;
+        })
+        .on("cut copy paste", function (e) {
+            e.preventDefault();
+        });
+
+    });
+    </script>
+</head>
+
+<body style="background-color:black">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand page-scroll" href="#page-top">National Data Visualization</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
+                    <li>
+                        <a href="/Home/Index">Home</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="/Home/Index">Service</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="/Home/Index">Submit Info</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="/Home/Index">Posts</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="/Home/Index">Contact</a>
+                    </li>
+                    <li>
+                        <a href="/Home/AllProblemPosts">News Feed</a>
+                    </li>
+                    <li class="dropdown user user-menu ">
+                        <!-- Menu Toggle Button -->
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <!-- The user image in the navbar-->
+                            <img src="~/Images/user.png" class="user-image" alt="User Image" />
+                        </a>
+                        <ul class="dropdown-menu img-centered">
+                            <!-- The user image in the menu -->
+                            <li class="user-header ">
+                                <div style="padding:20px">
+                                    <img src="~/Images/user1.png" class="img-circle " alt="User Image" /><br />
+                                    <p>
+                                        <br />
+                                        @Session["UN"]
+                                    </p>
+                                </div>
+                            </li>
+                            <!-- Menu Body -->
+                            <li>
+                                <p style="font-size:20px"><i>@Session["UN"]</i></p><hr />
+                            </li>
+                            <!-- Menu Footer-->
+                            <li class="user-footer">
+                                <div style="padding:8px">
+                                    <div class="pull-left">
+                                        <a href="#portfolioModal4" class="portfolio-link" data-toggle="modal">
+                                            <label style="font-size:15px"><i>View Profile</i></label>
+                                        </a>
+                                    </div><br />
+                                    <div class="pull-left">
+                                        <a href="#portfolioModal2" class="portfolio-link" data-toggle="modal">
+                                            <label style="font-size:15px"><i>Edit Profile</i></label>
+                                        </a>
+                                    </div><br />
+                                    <div class="pull-left">
+                                        <a href="/Home/MyProblemPosts">
+                                            <label style="font-size:15px"><i>My Posts</i></label>
+                                        </a>
+                                    </div><br /><hr />
+                                    <div class="pull-left">
+                                        <a href="/Home/HomePage">
+                                            <i class="fa fa-sign-out fa-2x"></i><label style="font-size:15px">    LOGOUT</label>
+                                        </a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+
+    <!-- Input Portion -->
+    <section>
+        <div class="container" style="background-color:aliceblue">
+            <br />
+            <div>
+                <h2 class="subheading">Manual Data Entry</h2>
+            </div>
+            <br />
+            <!-- Upper Portion -->
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-3">
+                    <h2><i>PAKISTAN</i></h2>
+                    <hr />
+                    <form>
+                        <b><i style="color: blue">Province:</i></b>
+                        <select id="prov" class="badge">
+                            <option value="" disabled selected>Select Province</option>
+                            <option value="1">Punjab</option>
+                            <option value="2">Sindh</option>
+                            <option value="3">Balochistan</option>
+                            <option value="4">NWFP</option>
+                            <option value="5">FATA</option>
+                        </select>
+                        <br /><br />
+                        <b><i style="color: blue">District:</i></b>
+                        <select id="dist" class="badge">
+                            <option value="" disabled selected>Select District</option>
+                        </select>
+                        <br /><br />
+                        <b><i style="color: blue">Tehsil:</i></b>
+                        <select id="teh" class="badge">
+                            <option value="" disabled selected>Select Tehsil</option>
+                        </select>
+                        <br /><br />
+                        <b><i style="color: blue">Attribute:</i></b>
+                        <select id="att" class="badge">
+                            <option value="" disabled selected>Select Attribute</option>
+                            <option value="1">Marital Status</option>
+                            <option value="2">Education level</option>
+                            <option value="3">Literacy</option>
+                            <option value="4">Religion</option>
+                            <option value="5">Field of Education</option>
+                            <option value="6">Mother Language</option>
+                            <option value="7">Can Read</option>
+                            <option value="8">New Data Attribute</option>
+                        </select>
+                        <br /><br />
+
+                    </form>
+                </div>
+                <div id="mnb" class="col-md-7" style=" width: 700px; height: 350px;">
+                    <!-- Jssor Slider Begin -->
+                    <div id="slider1_container" style="position: relative; margin: 0 auto; top: 0px; left: 0px; width: 650px; height: 350px;">
+                        <!-- Slides Container -->
+                        <div u="slides" style="cursor: move; position: absolute; left: 0px; top: 0px; width: 650px; height: 350px; overflow: hidden;">
+                            <div>
+                                <img src="~/Images/1.jpg" style="width: 650px; height: 350px;" />
+                            </div>
+                            <div>
+                                <img src="~/Images/2.jpg" style="width: 650px; height: 350px;" />
+                            </div>
+                            <div>
+                                <img src="~/Images/3.jpg" style="width: 650px; height: 350px;" />
+                            </div>
+                            <div>
+                                <img src="~/Images/4.jpg" style="width: 650px; height: 350px;" />
+                            </div>
+                        </div>
+                        <!-- Arrow Left -->
+                        <span u="arrowleft" class="jssora07l" style="width: 50px; height: 50px; top: 123px;
+        left: 8px;"></span>
+
+                    </div>
+                    <!-- Jssor Slider End -->
+                </div>
+            </div>
+
+            <!-- For Table -->
+            <style>
+                table, th, td {
+                    border: 1px solid black;
+                    border-collapse: collapse;
+                }
+
+                th, td {
+                    padding: 5px;
+                    text-align: left;
+                }
+            </style>
+
+            <div id="InputPlace" class="container"></div>
+
+            <script>
+                function codeAddress() {
+                    var lat;
+                    var long;
+                    geocoder = new google.maps.Geocoder();
+                    var address = document.getElementById("my-address").value;
+                    geocoder.geocode({ 'address': address }, function (results, status) {
+                        if (status == google.maps.GeocoderStatus.OK) {
+                            lat = results[0].geometry.location.lat();
+                            long = results[0].geometry.location.lng();
+                            map.ajaxCallAction('@ViewContext.RouteData.Values["Controller"].ToString()', 'FindFeatureClick', { x: long, y: lat }, function (result) {
+                                var param = { x: long, y: lat };
+
+                                map.ajaxCallAction('@ViewContext.RouteData.Values["Controller"].ToString()', 'ZoomToShape', param, callback);
+                                map.redrawLayer("HightLightDynamicOverlay");
+                                //swal({ title: " <small>Info</small>!", text: result.get_responseData(), html: true });
+                                //infoPopup.setContentHTML(result.get_responseData());
+                                //infoPopup.show();
+                            });
+                        }
+                        else {
+                            alert("Geocode was not successful for the following reason: " + status);
+                        }
+                    });
+                    return false;
+                }
+            </script>
+
+            <!-- New Attribute -->
+            <div class="container" id="tables" style="visibility:hidden">
+                <br /><br />
+                <span style="font-size:25px">
+                    Porvide us useful data about your area and happenings near arround you!
+                </span>
+                <br /><br />
+                <div class="container row">
+                    <div class="col-lg-6">
+                        <input id="Title" class="form-control" type="text" style="width:50%" placeholder="Attribute Title" />
+                    </div>
+                    <div class="col-lg-6">
+                        <input id="Location" class="form-control" type="text" style="width:50%" placeholder="Location" />
+                    </div>
+                </div>
+                
+                <br />
+                <table style="width:97%" id="NewAttrTable">
+                    <thead>
+                        <tr>
+                            <td>Sr #</td>
+                            <td><input class="form-control" type="text" disabled value="Year" /></td>
+                            <td><input class="form-control" type="text" placeholder="Column Name" /></td>
+                            <td><input class="form-control" type="text" placeholder="Column Name" /></td>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td>1</td>
+                        <td><input class="number-only form-control" type="text" /></td>
+                        <td><input class="number-only form-control" type="text" /></td>
+                        <td><input class="number-only form-control" type="text" /></td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td><input class="number-only form-control" type="text" /></td>
+                        <td><input class="number-only form-control" type="text" /></td>
+                        <td><input class="number-only form-control" type="text" /></td>
+                    </tr>
+                </table>
+                <br />
+                <div id="buttonz">
+                    <input class="btn-success" type="button" onclick="addRowFn()" id="adrow" value="Add Row" />
+                    <input class="btn-success" type="button" onclick="addColumnFn()" id="adcol" value="Add Column" />
+                    <input class="btn-primary" type="button" onclick="collectData()" id="sub" value="Submit" />
+                </div>
+                <div id="extra"></div>
+            </div>
+            <!-- New Attribute2 -->
+            <div class="container" id="tables2" style="visibility:hidden">
+                <br /><br />
+                <span style="font-size:25px">
+                    Porvide us useful data about your area and happenings near arround you!
+                </span>
+                <br /><br />
+                <div class="container row">
+                    <div class="col-lg-6">
+                        <input id="Title2" class="form-control" type="text" style="width:50%" placeholder="Attribute Title" />
+                    </div>
+                    <div class="col-lg-6">
+                        <input id="Location2" class="form-control" type="text" style="width:50%" placeholder="Location" />
+                    </div>
+                </div>
+
+                <br />
+                <table style="width:97%" id="NewAttrTable2">
+                    <thead>
+                        <tr>
+                            <td>Sr #</td>
+                            <td><input class="form-control" type="text" disabled value="Year" /></td>
+                            <td><input class="form-control" type="text" disabled value="Age Group" placeholder="Column Name" /></td>
+                            <td><input class="form-control" type="text" disabled value="Gender" placeholder="Column Name" /></td>
+                            <td><input class="form-control" type="text" placeholder="Column Name" /></td>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td>1</td>
+                        <td><input class="number-only form-control" type="text" /></td>
+                        <td><input class="number-only form-control" type="text" /></td>
+                        <td><input class="number-only form-control" type="text" /></td>
+                        <td><input class="number-only form-control" type="text" /></td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td><input class="number-only form-control" type="text" /></td>
+                        <td><input class="number-only form-control" type="text" /></td>
+                        <td><input class="number-only form-control" type="text" /></td>
+                        <td><input class="number-only form-control" type="text" /></td>
+                    </tr>
+                </table>
+                <br />
+                <div id="buttonzz">
+                    <input class="btn-success" type="button" onclick="addRowFn2()" id="adrow" value="Add Row" />
+                    <input class="btn-success" type="button" onclick="addColumnFn2()" id="adcol" value="Add Column" />
+                    <input class="btn-primary" type="button" onclick="collectData2()" id="sub" value="Submit" />
+                </div>
+                <div id="extra"></div>
+            </div>
+            <!-- Predefined Attribute -->
+            <div class="container" id="test" style="visibility:hidden">
+                <br /><br />
+                <span style="font-size:25px">
+                    Porvide us useful data about your area and happenings near arround you!
+                </span>
+                <br /><br />
+                <div class="container row">
+                    <div class="col-lg-6">
+                        <input id="Title3" class="form-control" type="text" style="width:50%" placeholder="Attribute Title" />
+                    </div>
+                    <div class="col-lg-6">
+                        <input id="Location3" class="form-control" type="text" style="width:50%" placeholder="Location" />
+                    </div>
+                </div>
+
+                <br />
+                <table id="table" style="width: 90%; background-color: #f1f1c1"></table>
+                <input type="button" onclick="rowGenerater()" value="Add Row" id="addrow" />
+                <input type="submit" onclick="submitRecords()" id="submit" value="submit" /><br />
+                <br /><br /><br /><br />
+            </div>
+
+            <!-- New Attribute Script -->
+            <script>
+            function addRowFn() {
+                var table = document.getElementById("NewAttrTable");
+                $('#NewAttrTable tbody').append($("#NewAttrTable tbody tr:last").clone());
+                $('#NewAttrTable tbody tr:last :text');
+                $('#NewAttrTable tbody tr:last td:first').html(--table.rows.length);
+            }
+
+            function addColumnFn() {
+                $('#NewAttrTable tr').append($("<td>"));
+                $('#NewAttrTable thead tr td:last').html('<input class="form-control" type="text" placeholder="Column Name" />');
+                $('#NewAttrTable tbody tr').each(function () { $(this).children('td:last').append($('<input class="number-only form-control" type="text" />')) });
+            }
+
+            function submitData(colName, list) {
+                var AttributeName = $("#Title").val();
+                var LocationName = $("#Location").val();
+                // colName = column names, list == data
+                var data = [];
+
+                if (AttributeName == "")
+                {
+                    swal("'Attribute' Is Empty");
+                }
+                else if (LocationName == "") {
+                    swal("'Location' Is Empty");
+                }
+                else {
+                    var zzz = list;
+                    alert("No of Rows = " + zzz.length);
+
+                    var send = new Array;
+                    for(var a = 0; a < zzz.length; a++)
+                    {
+                        for (var b = 0; b < zzz[a].length; b++)
+                        {
+                            send.push(zzz[a][b]);
+                        }
+                    }
+                    alert("Send Contains : " + send);
+                    $.ajax({
+                        url: "/Home/PlaceData/?y=" + colName + "&z=" + send + "&name=" + AttributeName + "&loc=" + LocationName,
+                        type: "POST",
+                        data: JSON.stringify(data),
+                        dataType: "JSON",
+                        contentType: "Application/JSON",
+                        async: true,
+                        success: function (d) {
+                            alert("Column Names Return = " + d);
+                        }
+                        , error: function () {
+                            alert('Sorry... Data Entry Fails..');
+                        }
+                    });
+
+                    $("#buttonz").html("");
+                    $("#buttonz").append("<br/>Your Provided Data Has Been Sent To NDV. Thank You.<br/>");
+                    $("#buttonz").append("<br/><input class='btn-success' type='button' onclick='moreRecords()' value='Enter More Records' />");
+                }
+            }
+
+            function collectData() {
+                var table = document.getElementById("NewAttrTable");
+                var count = 0;
+                var colName = new Array;
+                var list = new Array();
+                //var list = [];
+
+                for (var x = 1; ; x++)
+                {
+                    try
+                    {
+                        if (table.rows[0].cells[x].firstChild.value) {
+                            colName.push(table.rows[0].cells[x].firstChild.value);
+                        }
+                        else {
+                            break;
+                        }
+                    }
+                    catch(e)
+                    {
+                        break;
+                    }
+                }
+                
+                for (var i = 1; i < table.rows.length; i++) {
+                    var allData = new Array();
+                    for (var j = 1; j < colName.length + 1; j++) {
+                        try {
+                            if (table.rows[i].cells[j].firstChild.value) {
+                                count++;
+                                allData.push(table.rows[i].cells[j].firstChild.value);
+                            }
+                            else {
+                                allData.push(0);
+                            }
+                        }
+                        catch (e) {
+                            break;
+                        }
+                    }
+                    list.push(allData);
+                }
+                var check = 0;
+                for (var y = 0; y < list.length; y++)
+                {
+                    for (var z = 0; z < list[y].length; z = z + colName.length)
+                    {
+                        if(list[y][z] == 0)
+                        {
+                            swal("Year Missing");
+                            check = 1;
+                            break;
+                        }
+                    }
+                }
+                if(check == 0){
+                    submitData(colName,list);
+                }
+            }
+            
+            function moreRecords() {
+               document.getElementById("InputPlace").innerHTML = document.getElementById("tables").innerHTML;
+            }
+            </script>
+
+            <!-- New Attribute2 Script -->
+            <script>
+                function addRowFn2() {
+                    var table = document.getElementById("NewAttrTable2");
+                    $('#NewAttrTable2 tbody').append($("#NewAttrTable2 tbody tr:last").clone());
+                    $('#NewAttrTable2 tbody tr:last :text');
+                    $('#NewAttrTable2 tbody tr:last td:first').html(--table.rows.length);
+                }
+
+                function addColumnFn2() {
+                    $('#NewAttrTable2 tr').append($("<td>"));
+                    $('#NewAttrTable2 thead tr td:last').html('<input class="form-control" type="text" placeholder="Column Name" />');
+                    $('#NewAttrTable2 tbody tr').each(function () { $(this).children('td:last').append($('<input class="number-only form-control" type="text" />')) });
+                }
+
+                function submitData2(colName, list) {
+                    var AttributeName = $("#Title2").val();
+                    var LocationName = $("#Location2").val();
+                    //alert("colName = " + colName);
+                    //alert("list = " + list);
+                    //alert("Attribute = " + AttributeName);
+                    //alert("Location = " + LocationName);
+                    var data = [];
+
+                    if (AttributeName == "") {
+                        swal("'Attribute' Is Empty");
+                    }
+                    else if (LocationName == "") {
+                        swal("'Location' Is Empty");
+                    }
+                    else {
+                        var zzz = list;
+                        alert("No of Rows = " + zzz.length);
+
+                        var send = new Array;
+                        for (var a = 0; a < zzz.length; a++) {
+                            for (var b = 0; b < zzz[a].length; b++) {
+                                send.push(zzz[a][b]);
+                            }
+                        }
+                        alert("Send Contains : " + send);
+                        $.ajax({
+                            url: "/Home/PeopleData/?y=" + colName + "&z=" + send + "&name=" + AttributeName + "&loc=" + LocationName,
+                            type: "POST",
+                            data: JSON.stringify(data),
+                            dataType: "JSON",
+                            contentType: "Application/JSON",
+                            async: true,
+                            success: function (d) {
+                                alert("Success");
+                            }
+                            , error: function () {
+                                alert('Sorry... Data Entry Fails..');
+                            }
+                        });
+
+                        $("#buttonzz").html("");
+                        $("#buttonzz").append("<br/>Your Provided Data Has Been Sent To NDV. Thank You.<br/>");
+                        $("#buttonzz").append("<br/><input class='btn-success' type='button' onclick='moreRecords2()' value='Enter More Records' />");
+                    }
+                    
+                }
+
+                function collectData2() {
+                    var table = document.getElementById("NewAttrTable2");
+                    var count = 0;
+                    var colName = new Array;
+                    var list = [];
+
+                    for (var x = 1; ; x++) {
+                        try {
+                            if (table.rows[0].cells[x].firstChild.value) {
+                                colName.push(table.rows[0].cells[x].firstChild.value);
+                            }
+                            else {
+                                break;
+                            }
+                        }
+                        catch (e) {
+                            break;
+                        }
+                    }
+                    for (var i = 1; i < table.rows.length; i++) {
+                        var allData = new Array();
+                        for (var j = 1; j < colName.length + 1; j++) {
+                            try {
+                                if (table.rows[i].cells[j].firstChild.value) {
+                                    count++;
+                                    allData.push(table.rows[i].cells[j].firstChild.value);
+                                }
+                                else {
+                                    allData.push(0);
+                                }
+                            }
+                            catch (e) {
+                                break;
+                            }
+                        }
+                        list.push(allData);
+                    }
+                    var check = 0;
+                    for (var y = 0; y < list.length; y++) {
+                        if (list[y][0] == 0) {
+                            swal("Year Missing");
+                            check = 1;
+                            break;
+                        }
+                        else if (list[y][1] == 0) {
+                            swal("Age Group Missing");
+                            check = 1;
+                            break;
+                        }
+                        else if (list[y][2] == 0) {
+                            swal("Gender Missing");
+                            check = 1;
+                            break;
+                        }
+                    }
+                    //alert(check);
+                    if (check == 0) {
+                        submitData2(colName, list);
+                    }
+                }
+
+                function moreRecords2() {
+                    document.getElementById("InputPlace").innerHTML = document.getElementById("tables2").innerHTML;
+                }
+            </script>
+
+        </div>
+    </section>
+
+    <br />
+    <!-- Footer -->
+    <div class="container" style="background-color:black">
+        <div class="container-fluid" style="background-color:gray; padding:50px; padding-left:200px; padding-right:100px">
+            <div class="col-lg-4">
+                <div style="padding-right:100px">
+                    <h3>Connect</h3>
+                    <hr />
+                    <a href="#">Blog</a><br />
+                    <a href="#">Facebook</a><br />
+                    <a href="#">Google+</a><br />
+                    <a href="#">Twitter</a><br />
+                    <a href="#">YouTube</a><br />
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div style="padding-right:100px">
+                    <h3>Contents</h3>
+                    <hr />
+                    <a class="page-scroll" href="#page-top">Home</a><br />
+                    <a href="#">Service</a><br />
+                    <a href="#">Post Problems</a><br />
+                    <a class="page-scroll" href="#about">About Us</a><br />
+                    <a class="page-scroll" href="#contact">Contact Us</a><br />
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div style="padding-right:100px">
+                    <h3>Developers</h3>
+                    <hr />
+                    <a href="https://www.facebook.com/hamza.shafique.904">Hamza Shafique</a><br />
+                    <a href="https://www.facebook.com/shehraz.khan.980">Shehraz Khan</a><br />
+                    <a href="https://www.facebook.com/shaheryar.ahmed.982">Shaheryar Khan</a><br />
+                    <a href="https://www.facebook.com/ali.zuhaib.313">Ali Zuhaib</a><br />
+                </div>
+            </div>
+        </div>
+        <div>
+            <br />
+            <span style="padding-left:200px">
+                <span class="copyright" style="color:white">Copyright &copy; National Data Visualization 2015. All Rights Reserved.</span>
+            </span>
+        </div>
+        <br />
+    </div>
+
+    <!-- Plugin JavaScript -->
+    <script src="/JS/classie.js"></script>
+    <script src="/JS/cbpAnimatedHeader.js"></script>
+
+    <!-- Contact Form JavaScript -->
+    <script src="/JS/jqBootstrapValidation.js"></script>
+    <script src="/JS/contact_me.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="/JS/agency.js"></script>
+</body>
+
+
+</html>
+
+
+

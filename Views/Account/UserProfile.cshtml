@@ -1,0 +1,659 @@
+﻿@{
+    ViewBag.Title = "UserProfile";
+}
+
+@model MapSuite_using_MVC.Models.UserMessage
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>National Data Visualization</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="/CSS/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Custom CSS -->
+    <link href="/CSS/StyleSheet1.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="/font-awesome-4.3.0/font-awesome-4.3.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+    <script src="~/JS/jquery-ui.min.js"></script>
+    <script src="~/JS/jquery-1.11.3.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            jQuery('.tabs .tab-links a').on('click', function (e) {
+                var currentAttrValue = jQuery(this).attr('href');
+
+                // Show/Hide Tabs
+                jQuery('.tabs ' + currentAttrValue).show().siblings().hide();
+
+                // Change/remove current tab to active
+                jQuery(this).parent('li').addClass('active').siblings().removeClass('active');
+
+                e.preventDefault();
+            });
+        });
+
+        $("#file").change(function () { selectFileClick(); });
+
+        function selectFileClick() {
+            var fileName = filedialog();
+            // parsing file...
+            return false;
+        }
+    </script>
+
+</head>
+
+<body id="page-top" class="index" style="background-color:burlywood">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand page-scroll" href="#page-top">National Data Visualization</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#page-top">Home</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#services">Services</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#about">About</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#team">Graphs</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#contact">Contact Us</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#post">Post</a>
+                    </li>
+                    <li class="dropdown user user-menu ">
+                        <!-- Menu Toggle Button -->
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <!-- The user image in the navbar-->
+                            <img src="~/Images/user.png" class="user-image" alt="User Image" />
+                            <!-- hidden-xs hides the username on small devices so only the image appears. -->
+                            <span class="hidden-xs">@Session["UN"]</span>
+                        </a>
+                        <ul class="dropdown-menu img-centered">
+                            <!-- The user image in the menu -->
+                            <li class="user-header ">
+                                <div style="padding:20px">
+                                    <img src="~/Images/user1.png" class="img-circle " alt="User Image" /><br />
+                                    <p style="color:darkviolet">
+                                        @Session["UN"]
+                                        
+                                            Registered Member of
+                                            National Data Center
+                                        
+                                    </p>
+                                </div>
+                            </li>
+                            <!-- Menu Body -->
+                            <li class="user-body" style="width:180px; ">
+                                
+                            </li>
+                            <!-- Menu Footer-->
+                            <li class="user-footer">
+                                <div style="padding:8px">
+                                    <div class="pull-left">
+                                        <a style="background-color: darkkhaki; color: brown" href="#">PROFILE </a>
+                                    </div>
+                                    <div class="pull-right">
+                                        <a style="background-color:darkkhaki; color:brown" href="/Home/Index"> LOGOUT</a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+
+    <!-- Header -->
+    <header style="background-image:url(/Images/Globe.jpg) ; width:1350px">
+        <div class="container">
+            <div class="intro-text">
+
+                <div class="intro-lead-in">It's All About The Stats Of</div>
+                <div class="intro-heading">PAKISTAN</div>
+                @*<a href="#services" class="page-scroll btn btn-xl">Tell Me More</a>*@
+            </div>
+        </div>
+    </header>
+
+    <!-- Services Section -->
+    <section id="services">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">Services</h2>
+                    <h3 class="section-subheading text-muted">Stats of Pakistan</h3>
+                    @*<div id="googleMap" style="width:1100px;height:380px;"></div>*@
+
+                </div>
+            </div>
+            @*<br /><br />*@
+            <div class="row text-center">
+                <div class="col-md-4">
+                    <h4 style="font-family:Andalus; font-size:30px" class="service-heading"><b><i>PAKISTAN</i></b></h4>
+                    <hr /><br />
+                    <form>
+                        <b><i>Province:</i></b> <select class="badge">
+                            <option>Punjab</option>
+                            <option>Sindh</option>
+                            <option>NWFP</option>
+                            <option>Balochistan</option>
+                            <option>Kashmir</option>
+                        </select>
+                        <br /><br />
+                        <b><i>District:</i></b> <select class="badge">
+                            <option>Lahore</option>
+                            <option>Karachi</option>
+                            <option>Multan</option>
+                            <option>Islamabad</option>
+                            <option>Quetta</option>
+                        </select>
+                        <br /><br />
+                        <b><i>City:</i></b> <select class="badge">
+                            <option>Lahore</option>
+                            <option>Karachi</option>
+                            <option>Multan</option>
+                            <option>Islamabad</option>
+                            <option>Quetta</option>
+                        </select>
+                        <br /><br />
+                        <button class="btn-primary">Submit</button>
+                    </form>
+                </div>
+                <div class="col-md-8">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="active"><a href="#pop" role="tab" data-toggle="tab">Population</a></li>
+                        <li><a href="#lit" role="tab" data-toggle="tab">Literacy Rate</a></li>
+                        <li><a href="#acc" role="tab" data-toggle="tab">Accidental Rate</a></li>
+                        <li><a href="#sch" role="tab" data-toggle="tab">No of Schools</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="pop" class="tab-pane active">
+                            <br />
+                            <img src="/Images/p.jpg" style="width: 700px; height: 300px" class="img-responsive" alt="">
+                        </div>
+                        <div id="lit" class="tab-pane">
+                            <br />
+                            <img src="/Images/l.jpg" style="width: 700px; height: 300px; " class="img-responsive" alt="">
+                        </div>
+                        <div id="acc" class="tab-pane">
+                            <br />
+                            <img src="/Images/map.jpg" style="width: 700px; height: 300px; " class="img-responsive" alt="">
+                        </div>
+                        <div id="sch" class="tab-pane">
+                            <br />
+                            <img src="/Images/map.jpg" style="width: 700px; height: 300px; " class="img-responsive" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">About Us</h2>
+                    <h3 class="section-subheading text-muted">Its All About National Data of PAKISTAN</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <ul class="timeline">
+                        <li>
+                            <div class="timeline-image">
+                                <img class="img-circle img-responsive" style="width:350px; height:160px" src="/Images/mee.jpg" alt="">
+                            </div>
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <h3 class="subheading">Hamza Shafique</h3>
+                                </div>
+                                <div class="timeline-body">
+                                    <p class="text-muted">Team Manager<br />Web Developer<br />ASP.Net Developer<br />Java Developer</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="timeline-inverted">
+                            <div class="timeline-image">
+                                <img class="img-circle img-responsive" style="width:350px; height:160px" src="/Images/sheryy.jpg" alt="">
+                            </div>
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <h4>Shaheryar Ahmad</h4>
+                                    @*<h4 class="subheading">March 20012</h4>*@
+                                </div>
+                                <div class="timeline-body">
+                                    <p class="text-muted">Team Leader<br />ASP.Net Developer<br />Database Designer</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="timeline-image">
+                                <img class="img-circle img-responsive" style="width:350px; height:160px" src="/Images/shehraz.jpg" alt="">
+                            </div>
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <h4>Shehraz Khan</h4>
+                                    @*<h4 class="subheading">From 2013</h4>*@
+                                </div>
+                                <div class="timeline-body">
+                                    <p class="text-muted">Team Member<br />ASP.Net Developer<br /> Database Admin<br /></p>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="timeline-image">
+                                <img class="img-circle img-responsive" style="width:350px; height:160px" src="/Images/Ali.jpg" alt="">
+                            </div>
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <h4>Ali Zuhaib</h4>
+                                </div>
+                                <div class="timeline-body">
+                                    <p class="text-muted">Team Member<br />Designer<br /> QA Expert<br /></p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="timeline-inverted">
+                            <div class="timeline-image">
+                                <h4>
+                                    Be Part
+                                    <br>Of Our
+                                    <br>Story!
+                                </h4>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    //.................................................
+
+    <!-- Information Section -->
+    <section id="team" class="bg-light-gray">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">Visualization</h2>
+                    <h3 class="section-subheading text-muted">Provide us a useful information about your area</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-sm-6 portfolio-item">
+                    <a href="#portfolioModal1" class="portfolio-link" data-toggle="modal">
+                        <img src="/Images/barchart.png" style="width:350px; height:180px" class="img-responsive" alt="">
+                    </a>
+                    <div class="portfolio-caption text-center">
+                        <br /><h4>Bar Chart</h4>
+                        <p class="text-muted">---------------</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 portfolio-item">
+                    <a href="#portfolioModal2" class="portfolio-link" data-toggle="modal">
+                        <img src="/Images/histogram.png" style="width:350px; height:180px" class="img-responsive" alt="">
+                    </a>
+                    <div class="portfolio-caption text-center">
+                        <br /><h4>Histogram</h4>
+                        <p class="text-muted">---------------------</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 portfolio-item">
+                    <a href="#portfolioModal3" class="portfolio-link" data-toggle="modal">
+                        <img src="/Images/frequency.png" style="width:350px; height:180px" class="img-responsive" alt="">
+                    </a>
+                    <div class="portfolio-caption text-center">
+                        <br /><h4>Frequency Chart</h4>
+                        <p class="text-muted">----------------</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 portfolio-item">
+                    <a href="#portfolioModal3" class="portfolio-link" data-toggle="modal">
+                        <img src="/Images/bubblechart.png" style="width:350px; height:180px" class="img-responsive" alt="">
+                    </a>
+                    <div class="portfolio-caption text-center">
+                        <br /><h4>Bubble Chart</h4>
+                        <p class="text-muted">----------------</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">Contact Us</h2>
+                    <h3 class="section-subheading text-muted">For any other information contact us freely.</h3>
+                </div>
+            </div>
+
+            @using (@Html.BeginForm("GetRegistered", "Home", FormMethod.Post))
+            {
+
+                <div class="form-group col-lg-4">
+
+                    @Html.TextBoxFor(model => model.Username, new { @class = "form-control", placeholder = "UserName" })
+                    <br />@Html.TextBoxFor(model => model.Email, new { @class = "form-control", placeholder = "Email" })
+                    <br />@Html.TextBoxFor(model => model.PhoneNo, new { @class = "form-control", placeholder = "Phone No" })
+                    <br />@*<input type="text" class="form-control" name="id">*@
+                </div>
+                <div class="clearfix"></div>
+                <div class="form-group col-lg-8">
+                    <br />
+                    @Html.TextAreaFor(model => model.Message, new { @class = "form-control", placeholder = "Message", @row = "4" })
+                    @*<textarea class="form-control" rows="6" name="msg"></textarea>*@
+                </div>
+                <div class="form-group col-lg-12">
+                    <input type="hidden" name="save" value="contact">
+                    <button type="submit"  class="btn btn-success">Send</button>
+                </div>
+                
+            }
+            <script>
+                function fn() {
+                    alert('hamza');
+                }
+            </script>
+            @{Html.EndForm();}
+
+        </div>
+    </section>
+
+    <!-- Post Section -->
+    <section id="post" class="bg-light-gray">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center ">
+                    <h2 class="section-heading">Posts</h2>
+                    <h3 class="section-subheading text-muted">You Can Upload Useful Stuff About Pakistan Stats.</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-offset-2 col-lg-8">
+                    <div class="tabs">
+                        <ul class="tab-links">
+                            <li class="active"><a href="#tab1">Write Post</a></li>
+                            <li><a href="#tab2">Add Photo/Video</a></li>
+                            <li><a href="#tab3">Add File</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                            <div id="tab1" class="tab active">
+                                <form id="post1" action="">
+                                    <p>About Pakistan</p>
+                                    <textarea class="form-control" id="t1" placeholder="Write Something..."></textarea><br />
+                                    <input class="btn-success" type="submit" id="upload1" value="Post" /><br />
+                                </form>
+                            </div>
+
+                            <div id="tformab2" class="tab">
+                                <form id="post2" action="">
+                                    <p>Upload Photo or Video here!</p><br />
+                                    <input id="file" type="file" /><br />
+                                    <input class="btn-success" type="submit" id="upload1" value="Upload" /><br />
+                                </form>
+                            </div>
+
+                            <div id="tab3" class="tab">
+                                <form id="post3" action="">
+                                    <p>Upload Files..</p><br />
+                                    <input id="file" type="file"><br />
+                                    <input class="btn-success" type="submit" id="upload1" value="Upload" /><br />
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer style="background-color:chocolate">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <span class="copyright">Copyright &copy; Your Website 2015</span>
+                </div>
+                <div class="col-md-4">
+                    <ul class="list-inline social-buttons">
+                        <li>
+                            <a href="#"><i class="fa fa-twitter"></i></a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-facebook"></i></a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-linkedin"></i></a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <ul class="list-inline quicklinks">
+                        <li>
+                            <a href="#">Privacy Policy</a>
+                        </li>
+                        <li>
+                            <a href="#">Terms of Use</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Portfolio Modals -->
+    <!-- Use the modals below to showcase details about your portfolio projects! -->
+    <!-- Portfolio Modal 1 -->
+    <div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content" style="background-image:url(/Images/back.jpg)">
+            <div class="container">
+                <div class="col-lg-6 col-lg-offset-3">
+                    <div class="modal-body">
+                        <!-- Project Details Go Here -->
+                        <h2>Pakage Request</h2>
+                        <p class="item-intro text-muted">Fill In The Form With Your Desired Requirement.</p>
+
+                        <form class="form" method="post" action="/">
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Request Details</h3>
+                                </div>
+                                <div class="panel-body">
+
+                                    <div class="form-group">
+                                        <label for="heading">Title</label>
+                                        <input class="form-control" data-val="true" data-val-length="Title must be between 3 and 30 characters!" data-val-length-max="50" data-val-length-min="3" data-val-required="Title is required" id="title" name="title" placeholder="eg. Hp Laptop i5" type="text" value="" />
+                                        <span class="field-validation-valid" data-valmsg-for="title" data-valmsg-replace="true"></span>
+                                    </div>
+                                    <div>
+                                        <label for="heading">Catagory</label>
+                                        <select class="form-control" id="cat" name="catagory">
+                                            <option>Real Estate</option>
+                                            <option>Vehicle</option>
+                                            <option>Computer</option>
+                                            <option>Cell Phone</option>
+                                        </select>
+                                        <br />
+                                        <span class="field-validation-valid" data-valmsg-for="cat" data-valmsg-replace="true"></span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="heading">Brand</label>
+                                        <input class="form-control" data-val="true" data-val-length="Brand Name must be between 3 and 50 characters!" data-val-length-max="50" data-val-length-min="3" data-val-required="Brand is required" id="brand" name="brand" placeholder="Apple, Nokia, LG" type="text" value="" />
+
+                                        <span class="field-validation-valid" data-valmsg-for="brand" data-valmsg-replace="true"></span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="status">Status</label>
+
+
+                                        <select class="form-control" id="status" name="status">
+                                            <option selected="selected">New</option>
+                                            <option>Used</option>
+                                        </select>
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="text">Description</label>
+                                        <textarea class="form-control" cols="20" data-val="true" data-val-length="First Name must be between 10 and 500 characters!" data-val-length-max="500" data-val-length-min="10" data-val-required="Description is required" id="description" name="description" rows="6"></textarea>
+
+                                        <span class="field-validation-valid" data-valmsg-for="description" data-valmsg-replace="true"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Price</label>
+                                        <div class="form-inline">
+                                            <div class="form-group">
+                                                <div class="input-group" style="width: 150px;">
+                                                    <input class="form-control" data-val="true" data-val-length="Price must be between 100 and 10 Million !" data-val-length-max="8" data-val-length-min="3" data-val-required="Price is required" id="price" name="price" type="number" value="" />
+                                                    <span class="input-group-addon">PKR</span>
+                                                </div>
+                                                <span class="field-validation-valid" data-valmsg-for="price" data-valmsg-replace="true"></span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div class="well">
+                                <p>Click Here To Submit Request.</p>
+                                <button type="submit" class="btn btn-success">Submit Request</button>
+                                <button type="submit" class="btn btn-warning" data-dismiss="modal">   BACK   </button>
+
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Portfolio Modal 2 -->
+    <div class="portfolio-modal modal fade" id="portfolioModal2" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                            <h2>Project Heading</h2>
+                            <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
+                            <img class="img-responsive img-centered" src="img/portfolio/startup-framework-preview.png" alt="">
+                            <p><a href="http://designmodo.com/startup/?u=787">Startup Framework</a> is a website builder for professionals. Startup Framework contains components and complex blocks (PSD+HTML Bootstrap themes and templates) which can easily be integrated into almost any design. All of these components are made in the same style, and can easily be integrated into projects, allowing you to create hundreds of solutions for your future projects.</p>
+                            <p>You can preview Startup Framework <a href="http://designmodo.com/startup/?u=787">here</a>.</p>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close Project</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Portfolio Modal 3 -->
+    <div class="portfolio-modal modal fade" id="portfolioModal3" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                            <!-- Project Details Go Here -->
+                            <h2>Project Name</h2>
+                            <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
+                            <img class="img-responsive img-centered" src="img/portfolio/treehouse-preview.png" alt="">
+                            <p>Treehouse is a free PSD web template built by <a href="https://www.behance.net/MathavanJaya">Mathavan Jaya</a>. This is bright and spacious design perfect for people or startup companies looking to showcase their apps or other projects.</p>
+                            <p>You can download the PSD template in this portfolio sample item at <a href="http://freebiesxpress.com/gallery/treehouse-free-psd-web-template/">FreebiesXpress.com</a>.</p>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close Project</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- jQuery -->
+    <script src="/JS/jquery-1.11.3.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/JS/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+    <script src="/JS/classie.js"></script>
+    <script src="/JS/cbpAnimatedHeader.js"></script>
+
+    <!-- Contact Form JavaScript -->
+    <script src="/JS/jqBootstrapValidation.js"></script>
+    <script src="/JS/contact_me.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="/JS/agency.js"></script>
+
+</body>
+
+</html>
+

@@ -1,0 +1,116 @@
+﻿@{
+    Layout = null;
+}
+@using ThinkGeo.MapSuite.MvcEdition
+@using ThinkGeo.MapSuite.Core
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <div>
+       
+  @{Html.ThinkGeo().Map("Map1",  new System.Web.UI.WebControls.Unit(100, System.Web.UI.WebControls.UnitType.Percentage), 510)
+        .MapBackground(new BackgroundLayer(new GeoSolidBrush(GeoColor.GeographicColors.ShallowOcean)))
+        .CurrentExtent(3,30,300,30)
+        .MapUnit(GeographyUnit.DecimalDegree)
+        .MapTools(mapTools =>
+        {
+            mapTools.LoadingImageMapTool().Enabled(true).Width(64).Height(64)
+                .ImageUri(new Uri(Server.MapPath("~/ShapeFiles/ajax-loader.gif")));
+        }
+                )
+        .StaticOverlay(overlay =>
+        {
+           // ShapeFileFeatureLayer worldLayer = new ShapeFileFeatureLayer(Server.MapPath(@"~/ShapeFiles/PAK_adm0.shp"));
+           // worldLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyles.Country1;
+           // worldLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+           // ShapeFileFeatureLayer.BuildIndexFile(Server.MapPath(@"~/ShapeFiles/PAK_adm0.shp"));
+           // ShapeFileFeatureLayer capitalLayer = new ShapeFileFeatureLayer(Server.MapPath(@"~/ShapeFiles/PAK_adm1.shp"));
+           // //capitalLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = PointStyles.Capital3;
+           // capitalLayer.ZoomLevelSet.ZoomLevel01.DefaultTextStyle = TextStyles.Capital3("NAME_1");
+           // capitalLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            
+           // // We create a new Layer for labeling the capitals.
+           // ShapeFileFeatureLayer capitalLabelLayer = new ShapeFileFeatureLayer(Server.MapPath(@"~/ShapeFiles/PAK_adm3.shp"));
+           // // We use the preset TextStyle. Here we passed in the “CITY_NAME”, which is the name of the field we want to label on map.
+           // //capitalLabelLayer.ZoomLevelSet.ZoomLevel01.DefaultTextStyle = TextStyles.Capital3("NAME_3");
+           // capitalLabelLayer.ZoomLevelSet.ZoomLevel07.DefaultTextStyle = TextStyles.CreateSimpleTextStyle("NAME_3", "Arial", 8, DrawingFontStyles.Italic, GeoColor.StandardColors.Black, 3, 3);
+           // capitalLabelLayer.ZoomLevelSet.ZoomLevel07.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+           // // As the map is drawn by tiles, it needs to draw on the margin to make sure the text is complete after we joining the tiles together.
+           // // Change the number to another one (for example 0) and you can see the difference.
+           // capitalLabelLayer.DrawingMarginPercentage = 50;
+
+            
+            
+            
+           //// // World layer
+           //// ShapeFileFeatureLayer worldLayer = new ShapeFileFeatureLayer(Server.MapPath(@"~/ShapeFiles/PAK_adm0.shp"));
+           //// worldLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyles.Country1;
+           //// worldLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            
+           // overlay.Layer(worldLayer);
+
+           //// // Capital layer
+           //// ShapeFileFeatureLayer capitalLayer = new ShapeFileFeatureLayer(Server.MapPath(@"~/ShapeFiles/PAK_adm2.shp"));
+           //// // We can customize our own Style. Here we pass in a color and a size.
+           //// capitalLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = PointStyles.CreateSimpleCircleStyle(GeoColor.StandardColors.White, 7, GeoColor.StandardColors.Brown);
+           //// // The Style we set here is applied from ZoomLevel01 to ZoomLevel05. That means if we zoom in a bit more, this particular style will not be visible anymore.
+           //// capitalLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level05;
+           //// capitalLayer.ZoomLevelSet.ZoomLevel01.DefaultTextStyle = TextStyles.CreateSimpleTextStyle("NAME_2", "Arial", 8, DrawingFontStyles.Italic, GeoColor.StandardColors.Black, 3, 3);
+           //// capitalLayer.ZoomLevelSet.ZoomLevel06.DefaultPointStyle = PointStyles.Capital3;
+           //// // The Style we set here is applied from ZoomLevel06 to ZoomLevel20. That means if we zoom out a bit more, this particular style will not be visible anymore.
+           //// capitalLayer.ZoomLevelSet.ZoomLevel06.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+
+           // overlay.Layer(capitalLayer);
+
+           //// // Label layer
+           //// ShapeFileFeatureLayer capitalLabelLayer = new ShapeFileFeatureLayer(Server.MapPath(@"~/ShapeFiles/PAK_adm3.shp"));
+           //// // We can customize our own TextStyle. Here we pass in the font, the size, the style and the color.
+           ////// capitalLabelLayer.ZoomLevelSet.ZoomLevel01.DefaultTextStyle = TextStyles.CreateSimpleTextStyle("NAME_3", "Arial", 8, DrawingFontStyles.Italic, GeoColor.StandardColors.Black, 3, 3);
+           //// // The TextStyle we set here is applied from ZoomLevel01 to ZoomLevel05. 
+           //// capitalLabelLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level05;
+
+           //// capitalLabelLayer.ZoomLevelSet.ZoomLevel06.DefaultTextStyle = TextStyles.Capital3("NAME_3");
+           //// // The TextStyle we set here is applied from ZoomLevel06 to ZoomLevel20. 
+           //// capitalLabelLayer.ZoomLevelSet.ZoomLevel06.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+
+           //// capitalLabelLayer.DrawingMarginPercentage = 50;
+           // overlay.Layer(capitalLabelLayer);
+
+
+
+            ShapeFileFeatureSource featureSource = new ShapeFileFeatureSource(Server.MapPath(@"~/ShapeFiles/PAK_adm3.shp"));
+
+            HeatLayer heatLayer = new HeatLayer(featureSource);
+            //Creates the HeatStyle to set the properties determining the display of the heat map with earth quake data.  
+            //Notice that each point is treated with an intensity depending on the value of the column "other_magn1".  
+            //So, in addition to the density of points location, the value for each point is also going to be counted into account  
+            //for the coloring of the map.  
+            HeatStyle heatStyle = new HeatStyle("ID_3",3.4,7.1);
+            heatStyle.Alpha = 255;
+            heatStyle.PointRadius = 100;
+            heatStyle.PointRadiusUnit = DistanceUnit.Kilometer;
+            heatStyle.Alpha = 180;
+            heatStyle.PointIntensity = 10;
+
+            heatStyle.IntensityColumnName = "CONFIRMED";
+            heatStyle.IntensityRangeStart = 0;
+            heatStyle.IntensityRangeEnd = 638;
+
+            heatLayer.HeatStyle = heatStyle;
+
+            LayerOverlay heatMapOverlay = new LayerOverlay();
+            heatMapOverlay.Layers.Add(heatLayer);
+
+            overlay.Layer(heatLayer);  
+ 
+        })
+        .Render();
+    }
+    </div>
+</body>
+</html>

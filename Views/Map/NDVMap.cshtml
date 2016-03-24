@@ -1,0 +1,283 @@
+﻿@using ThinkGeo.MapSuite.MvcEdition
+@using ThinkGeo.MapSuite.Core
+@model ThinkGeo.MapSuite.MvcEdition.Map
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PakMap</title>
+
+    <!-- BOOTSTRAP STYLES-->
+    <link href="~/bootstrap-3.3.4-dist/basic.css" rel="stylesheet" />
+    <link href="~/bootstrap-3.3.4-dist/bootstrap.css" rel="stylesheet" />
+    <link href="~/bootstrap-3.3.4-dist/custom.css" rel="stylesheet" />
+    <link href="~/bootstrap-3.3.4-dist/font-awesome.css" rel="stylesheet" />
+    <script src="~/JS/jquery-ui.js"></script>
+    <script src="~/JS/jquery-ui.min.js"></script>
+    <script src="~/JS/jquery-1.11.3.js"></script>
+    <!-- GOOGLE FONTS-->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+    <style>
+        div.relative {
+            position: relative;
+            
+            border: 2px solid #3b8920;
+        }
+
+        div.absolute {
+            position: absolute;
+            visibility:hidden;
+            top: 0px;
+            right: 0;
+            width: 160px;
+            height: 310px;
+            border: 2px solid #73AD21;
+        }
+#overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    background: #000;
+    opacity: 0.8;
+    filter: alpha(opacity=80);
+}
+#loading {
+    width: 50px;
+    height: 57px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -28px 0 0 -25px;
+}
+
+    </style>
+    <script>
+        jQuery(document).ready(function () {
+           var loading = function() {
+        // add the overlay with loading image to the page
+        var over = '<div id="overlay">' +
+            '<img id="loading" src="/ShapeFiles/ajax-loader.gif">' +
+            '</div>';
+        $(over).appendTo('body');
+
+        // click on the overlay to remove it
+        //$('#overlay').click(function() {
+        //    $(this).remove();
+        //});
+
+        // hit escape to close the overlay
+        $(document).keyup(function(e) {
+            if (e.which === 27) {
+                $('#overlay').remove();
+            }
+        });
+    };
+            $('#sub_attribute').on('change', function () {
+          
+            $('#chooseSubInfo').css('visibility', 'hidden');
+        });
+            $("#att").on("change", function () {
+                loading();
+                $('#chooseInfo').css('visibility', 'hidden');
+            var data = {};
+            data.Attribute_Name = $(this).val();
+            data.Attribute_ID = 1;//$(this).text();
+
+            $.ajax({
+                url: "/Map/attToSubAttr",
+                type: "POST",
+                data: JSON.stringify(data),
+                dataType: "JSON",
+                contentType: "Application/JSON",
+                async: true,
+                success: function (d) {
+
+                    $('#sub_attribute').html('');
+                    for (var i = 0; i < d.Result1.length; i++) {
+                        if (i == 0) {
+                            $('#sub_attribute').append('<option value="" disabled selected>Sub Attribute</option>');
+                        }
+                        var obj1 = d.Result1[i];
+                        var obj2 = d.Result2[i];
+
+                        $('#sub_attribute').append($('<option>', {
+                            value: obj2,
+                            text: obj1
+                        }));
+                    }
+                }
+            });
+                           $('#overlay').remove();
+            });
+            $('#loca').on('change', function () {
+            loading();
+            @*var loc = $(this).val();
+           
+            map.ajaxCallAction('@ViewContext.RouteData.Values["Controller"].ToString()', 'changeLoction', { a: loc }, function (result) {
+                if (result.get_responseData() == 0) {
+                    alert('Error Occur on server-side');
+                }
+                else
+                map.redrawLayer("StaticOverlay");
+            });*@
+                           $('#overlay').remove();
+            });
+            
+        });
+    </script>
+</head>
+<body >
+    <div class="afloader" style="position: absolute; float: left; top: 0px; left: 0px; width: 600px; height: 600px; z-index: 1000; visibility:hidden;" id="afLoadDiv">
+        <img style="position: absolute; top: 354px; left: 454px;" src="~/images/lazy-loading-image.gif" alt="loading...">
+    </div>
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-md-3 col-sm-3">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        Choose Location & Information
+                    </div>
+                    <div class="panel-body">
+                        <select id="att" class="dropdown-header">
+                            <option value="" disabled selected>Select Info</option>
+                            <option value="Merital Status">Merital Status</option>
+                            <option value="Education level">Education level</option>
+                            <option value="Literacy">Literacy</option>
+                            <option value="Religion">Religion</option>
+                            <option value="Field of Education">Field of Education</option>
+                            <option value="Mother Language">Mother Language</option>
+                            <option value="Can Read">Can Read</option>
+                        </select><label id="chooseInfo" class="warning" style="visibility:hidden;color:red">Please 
+                        choose info</label>
+                        <br />
+                        <!--sub att-->
+                        <select id="sub_attribute" class="dropdown-header">
+                            <option value="" disabled selected>Sub_Attribute</option>
+
+                        </select>
+                        <!--/sub att-->
+                        <label id="chooseSubInfo" class="warning" style="visibility:hidden;color:red">
+                            Please
+                            choose Sub Attribute
+                        </label>
+                        <br />
+                        <select id="loca" class="dropdown-header">
+                            <option value="" disabled selected>Select Location</option>
+                            <option value="Pakistan">Pakistan</option>
+                            <option value="Provinces">Provinces</option>
+                            <option value="Districts">Districts</option>
+                            <option value="Tehsils">Tehsils</option>
+                        </select><label id="chooseLoc" class="warning" style="visibility:hidden;color:red">
+    Please
+    choose Location
+</label>
+                       
+                        <input id="btn_show" type="button" class="btn-primary" value="Show Data" onclick="showData()"/>
+                    </div>
+                   
+                            
+                   
+                </div>
+            </div>
+           
+        </div>
+
+        <!-- /. ROW  -->
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        Map
+                    </div>
+                    <div class="panel-body relative">
+                        @{Html.ThinkGeo().Map(ViewBag.map2).OnClientClick("mapClick").Render();}
+                        <div id="legendDiv" class="absolute" >
+                            <div id="colorHeader">
+
+                            </div>
+                            
+                            <ul>
+                                <li><span><input class="legend" style="background-color: #ff0000;" type="button"></span><span>1%-----10%</span></li>
+                                <li><span><input class="legend" style="background-color: #00ff00;" type="button"></span><span>11%-----20%</span></li>
+                                <li><span><input class="legend" style="background-color: #0000ff;" type="button"></span><span>21%-----30%</span></li>
+                                <li><span><input class="legend" style="background-color: orange;" type="button"></span><span>31%-----40%</span></li>
+                                <li><span><input class="legend" style="background-color: yellow;" type="button"></span><span>41%-----50%</span></li>
+                                <li><span><input class="legend" style="background-color: violet;" type="button"></span><span>51%-----60%</span></li>
+                                <li><span><input class="legend" style="background-color: skyblue;" type="button"></span><span>61%-----70%</span></li>
+                                <li><span><input class="legend" style="background-color: silver;" type="button"></span><span>71%-----80%</span></li>
+                                <li><span><input class="legend" style="background-color: pink;" type="button"></span><span>81%-----90%</span></li>
+                                <li><span><input class="legend" style="background-color: brown;" type="button"></span><span>91%-----100%</span></li>
+                                <li><span><input class="legend" style="background-color: black;" type="button"></span><span>No Data Region</span></li>
+                            </ul>
+
+                        </div>
+
+                    </div>
+                    @*<div class="panel-footer">
+                    Panel Footer
+                </div>*@
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div id="footer-sec">
+        &copy; 2014 NDV | Design By : Shehraz Khan
+    </div>
+    <!-- /. FOOTER  -->
+
+    <!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
+    <script>
+        function showData()
+        {
+            
+            var loc=$('#loca').val();
+            var att = $('#att').val();
+            var sub_att = $('#sub_attribute').val();
+            var sub_attr_name =$('#sub_attribute').children(':selected').text();
+            if (loc == null)
+            {
+                $('#chooseLoc').css('visibility','visible');
+            }
+            if (att == null)
+            {
+                $('#chooseInfo').css('visibility', 'visible');
+            }
+            if (loc != null && att != null && sub_att == null)
+            {
+                $('#chooseSubInfo').css('visibility', 'visible');
+            }
+            if (loc != null && att != null && sub_att!=null)
+            {
+               
+                map.ajaxCallAction('@ViewContext.RouteData.Values["Controller"].ToString()', 'showDataOnMap2', { a: loc, b: att ,c:sub_att,d:sub_attr_name}, function (result) {
+                    map.redrawLayer("StaticOverlay");
+                    $('.absolute').css('visibility', 'visible');
+                    $('#colorHeader').html('');
+                    $('#colorHeader').append('<span class="label label-info" >' + sub_attr_name + '</span>');
+                });
+               
+            }
+
+                          $('#overlay').remove();
+        }
+    </script>
+    <!-- JQUERY SCRIPTS -->
+    <script src="~/JS/jquery-1.10.2.js"></script>
+    <script src="~/JS/jquery-1.11.3.js"></script>
+    <!-- BOOTSTRAP SCRIPTS -->
+    <script src="~/JS/bootstrap.js"></script>
+    <!-- METISMENU SCRIPTS -->
+    <script src="~/JS/jquery.metisMenu.js"></script>
+    <!-- CUSTOM SCRIPTS -->
+    <script src="~/JS/custom.js"></script>
+
+
+</body>
+</html>

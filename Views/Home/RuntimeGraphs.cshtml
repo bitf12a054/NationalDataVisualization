@@ -1,0 +1,969 @@
+﻿@{
+    ViewBag.Title = "RuntimeGraphs";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Runtine Graphs</title>
+    <link rel="icon" href="/Images/LOGO.jpg">
+
+    <!-- Bootstrap Core CSS -->
+    <link href="/CSS/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Custom CSS -->
+    <link href="/CSS/StyleSheet1.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="/CSS/full-slider.css" rel="stylesheet">
+    <link href="/font-awesome-4.3.0/font-awesome-4.3.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+    <script src="~/JS/jquery-ui.min.js"></script>
+    <script src="~/JS/jquery-1.11.3.js"></script>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+    <script src="/sweetalert-master/dist/sweetalert.min.js"></script>
+    <script src="~/JS/jquery-ui.min.js"></script>
+    <script src="~/JS/jquery-1.11.3.js"></script>
+    <link href="~/JS/morris.css" rel="stylesheet" />
+    <script src="~/JS/morris.min.js"></script>
+    <script src="~/JS/morris.js"></script>
+    <script src="~/JS/prettify.js"></script>
+    <script src="~/JS/rapheal.js"></script>
+    <script src="~/JS/example.js"></script>
+
+    <script src="~/JS/jquery.flot.js"></script>
+    <script src="~/JS/jquery.flot.crosshair.js"></script>
+    <script src="~/JS/d3.min.js"></script>
+
+    <script src="~/JS/js/jquery-1.9.1.min.js"></script>
+    <script src="~/JS/js/jssor.core.js"></script>
+    <script src="~/JS/js/jssor.slider.js"></script>
+    <script src="~/JS/js/jssor.utils.js"></script>
+
+    <!-- Mini Slider -->
+    <script type="text/javascript">
+        jQuery(document).ready(function ($) {
+            var options = {
+                $AutoPlay: true,                                    //[Optional] Whether to auto play, to enable slideshow, this option must be set to true, default value is false
+                $AutoPlayInterval: 4000,                            //[Optional] Interval (in milliseconds) to go for next slide since the previous stopped if the slider is auto playing, default value is 3000
+                $PauseOnHover: 1,                                   //[Optional] Whether to pause when mouse over if a slider is auto playing, 0 no pause, 1 pause for desktop, 2 pause for touch device, 3 pause for desktop and touch device, default value is 1
+
+                $ArrowKeyNavigation: true,   			            //[Optional] Allows keyboard (arrow key) navigation or not, default value is false
+                $SlideDuration: 800,                                //[Optional] Specifies default duration (swipe) for slide in milliseconds, default value is 500
+                $MinDragOffsetToSlide: 20,                          //[Optional] Minimum drag offset to trigger slide , default value is 20
+                //$SlideWidth: 600,                                 //[Optional] Width of every slide in pixels, default value is width of 'slides' container
+                //$SlideHeight: 300,                                //[Optional] Height of every slide in pixels, default value is height of 'slides' container
+                $SlideSpacing: 0, 					                //[Optional] Space between each slide in pixels, default value is 0
+                $DisplayPieces: 1,                                  //[Optional] Number of pieces to display (the slideshow would be disabled if the value is set to greater than 1), the default value is 1
+                $ParkingPosition: 0,                                //[Optional] The offset position to park slide (this options applys only when slideshow disabled), default value is 0.
+                $UISearchMode: 1,                                   //[Optional] The way (0 parellel, 1 recursive, default value is 1) to search UI components (slides container, loading screen, navigator container, arrow navigator container, thumbnail navigator container etc).
+                $PlayOrientation: 1,                                //[Optional] Orientation to play slide (for auto play, navigation), 1 horizental, 2 vertical, default value is 1
+                $DragOrientation: 1,                                //[Optional] Orientation to drag slide, 0 no drag, 1 horizental, 2 vertical, 3 either, default value is 1 (Note that the $DragOrientation should be the same as $PlayOrientation when $DisplayPieces is greater than 1, or parking position is not 0)
+
+                $ArrowNavigatorOptions: {                       //[Optional] Options to specify and enable arrow navigator or not
+                    $Class: $JssorArrowNavigator$,              //[Requried] Class to create arrow navigator instance
+                    $ChanceToShow: 1,                               //[Required] 0 Never, 1 Mouse Over, 2 Always
+                    $AutoCenter: 2,                                 //[Optional] Auto center arrows in parent container, 0 No, 1 Horizontal, 2 Vertical, 3 Both, default value is 0
+                    $Steps: 1                                       //[Optional] Steps to go for each navigation request, default value is 1
+                },
+
+                $ThumbnailNavigatorOptions: {
+                    $Class: $JssorThumbnailNavigator$,              //[Required] Class to create thumbnail navigator instance
+                    $ChanceToShow: 2,                               //[Required] 0 Never, 1 Mouse Over, 2 Always
+
+                    $ActionMode: 1,                                 //[Optional] 0 None, 1 act by click, 2 act by mouse hover, 3 both, default value is 1
+                    $AutoCenter: 0,                                 //[Optional] Auto center thumbnail items in the thumbnail navigator container, 0 None, 1 Horizontal, 2 Vertical, 3 Both, default value is 3
+                    $Lanes: 1,                                      //[Optional] Specify lanes to arrange thumbnails, default value is 1
+                    $SpacingX: 3,                                   //[Optional] Horizontal space between each thumbnail in pixel, default value is 0
+                    $SpacingY: 3,                                   //[Optional] Vertical space between each thumbnail in pixel, default value is 0
+                    $DisplayPieces: 10,                              //[Optional] Number of pieces to display, default value is 1
+                    $ParkingPosition: 260,                          //[Optional] The offset position to park thumbnail
+                    $Orientation: 1,                                //[Optional] Orientation to arrange thumbnails, 1 horizental, 2 vertical, default value is 1
+                    $DisableDrag: false                            //[Optional] Disable drag or not, default value is false
+                }
+            };
+
+            var jssor_slider1 = new $JssorSlider$("slider1_container", options);
+
+            //responsive code begin
+            //you can remove responsive code if you don't want the slider scales while window resizes
+            function ScaleSlider() {
+                var bodyWidth = document.body.clientWidth;
+                if (bodyWidth)
+                    jssor_slider1.$SetScaleWidth(Math.min(bodyWidth, 800));
+                else
+                    window.setTimeout(ScaleSlider, 30);
+            }
+
+            ScaleSlider();
+
+            if (!navigator.userAgent.match(/(iPhone|iPod|iPad|BlackBerry|IEMobile)/)) {
+                $(window).bind('resize', ScaleSlider);
+            }
+        });
+    </script>
+    <!-- Arrow Navigator Skin Begin -->
+    <style type="text/css">
+        .jssora07l, .jssora07r, .jssora07ldn, .jssora07rdn {
+            position: absolute;
+            cursor: pointer;
+            display: block;
+            background: url(Images/a07.png) no-repeat;
+            overflow: hidden;
+        }
+
+        .jssora07l {
+            background-position: -5px -35px;
+        }
+
+        .jssora07r {
+            background-position: -65px -35px;
+        }
+
+        .jssora07l:hover {
+            background-position: -125px -35px;
+        }
+
+        .jssora07r:hover {
+            background-position: -185px -35px;
+        }
+
+        .jssora07ldn {
+            background-position: -245px -35px;
+        }
+
+        .jssora07rdn {
+            background-position: -305px -35px;
+        }
+    </style>
+    <!-- Thumbnail Item Skin Begin -->
+    <style type="text/css">
+        .jssort04 .w, .jssort04 .pav:hover .w {
+            position: absolute;
+            width: 60px;
+            height: 30px;
+            border: #0099FF 1px solid;
+        }
+
+        * html .jssort04 .w {
+            width: /**/ 62px;
+            height: /**/ 32px;
+        }
+
+        .jssort04 .pdn .w, .jssort04 .pav .w {
+            border-style: solid;
+        }
+
+        .jssort04 .c {
+            width: 62px;
+            height: 32px;
+            filter: alpha(opacity=45);
+            opacity: .45;
+            transition: opacity .6s;
+            -moz-transition: opacity .6s;
+            -webkit-transition: opacity .6s;
+            -o-transition: opacity .6s;
+        }
+
+        .jssort04 .p:hover .c, .jssort04 .pav .c {
+            filter: alpha(opacity=0);
+            opacity: 0;
+        }
+
+        .jssort04 .p:hover .c {
+            transition: none;
+            -moz-transition: none;
+            -webkit-transition: none;
+            -o-transition: none;
+        }
+    </style>
+
+    <!-- jQuery -->
+    <script src="/JS/jquery-1.11.3.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/JS/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+    <script src="/JS/classie.js"></script>
+    <script src="/JS/cbpAnimatedHeader.js"></script>
+
+    <!-- Contact Form JavaScript -->
+    <script src="/JS/jqBootstrapValidation.js"></script>
+    <script src="/JS/contact_me.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="/JS/agency.js"></script>
+</head>
+
+<body style="background-color:black">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand page-scroll" href="/Home/Index">National Data Visualization</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
+                    <li>
+                        <a href="/Home/Index">Home</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#run_time">Generate Graphs</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#locate">Your Location</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#track">Nearby Stats</a>
+                    </li>
+                    <li>
+                        <a href="/Home/AllProblemPosts">News Feed</a>
+                    </li>
+                    <li class="dropdown user user-menu ">
+                        <!-- Menu Toggle Button -->
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <!-- The user image in the navbar-->
+                            <img src="~/Images/user.png" class="user-image" alt="User Image" />
+                        </a>
+                        <ul class="dropdown-menu img-centered">
+                            <!-- The user image in the menu -->
+                            <li class="user-header ">
+                                <div style="padding:20px">
+                                    <img src="~/Images/user1.png" class="img-circle " alt="User Image" /><br />
+                                    <p><br /> @Session["UN"] </p>
+                                </div>
+                            </li>
+                            <!-- Menu Body -->
+                            <li>
+                                <p style="font-size:20px"><i>@Session["UN"]</i></p><hr />
+                            </li>
+                            <!-- Menu Footer-->
+                            <li class="user-footer">
+                                <div style="padding:8px">
+                                    <div class="pull-left">
+                                        <a href="#portfolioModal4" class="portfolio-link" data-toggle="modal">
+                                            <label style="font-size:15px"><i>View Profile</i></label>
+                                        </a>
+                                    </div><br />
+                                    <div class="pull-left">
+                                        <a href="#portfolioModal2" class="portfolio-link" data-toggle="modal">
+                                            <label style="font-size:15px"><i>Edit Profile</i></label>
+                                        </a>
+                                    </div><br />
+                                    <div class="pull-left">
+                                        <a href="/Home/MyProblemPosts">
+                                            <label style="font-size:15px"><i>My Posts</i></label>
+                                        </a>
+                                    </div><br /><hr />
+                                    <div class="pull-left">
+                                        <a href="/Home/HomePage">
+                                            <i class="fa fa-sign-out fa-2x"></i><label style="font-size:15px">    LOGOUT</label>
+                                        </a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+
+    <!-- Runtime Portion -->
+    <section id="run_time" style="background-image: url(/Images/hd1.jpeg)">
+        <div class="container" style="background-color:aliceblue">
+            <br />
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading" style="color: darkblue"><i>RUN TIME VISULAIZATION</i></h2>
+                    @*<h3 class="section-subheading text-muted" style="color: lightblue">Stats of Pakistan</h3>*@
+                </div>
+            </div>
+            <br />
+            <div class="row text-center">
+                <div class="col-md-1"></div>
+                <div class="col-md-3" style="color:aliceblue; border: groove; background-image: url(/Images/PP.jpg)">
+                    <h2><i>PAKISTAN</i></h2>
+                    <hr />
+                    <br />
+                    <div>
+                        <p style="font-size:18px">Goal of this project is to make such a Data Visualization Tool (DVT) that shows statistics of National Data in graphical form for easy understanding of what the data prevails.</p>
+                    </div>
+                </div>
+                <div id="mnb" class="col-md-7" style="  height: 350px;">
+                    <!-- Jssor Slider Begin -->
+                    <div id="slider1_container" style="position: relative; margin: 0 auto; top: 0px; left: 0px; width: 650px; height: 350px;">
+                        <!-- Slides Container -->
+                        <div u="slides" style="cursor: move; position: absolute; left: 0px; top: 0px; width: 650px; height: 350px; overflow: hidden;">
+                            <div>
+                                <img src="~/Images/1.jpg" style="width: 650px; height: 350px;" />
+                            </div>
+                            <div>
+                                <img src="~/Images/2.jpg" style="width: 650px; height: 350px;" />
+                            </div>
+                            <div>
+                                <img src="~/Images/3.jpg" style="width: 650px; height: 350px;" />
+                            </div>
+                            <div>
+                                <img src="~/Images/4.jpg" style="width: 650px; height: 350px;" />
+                            </div>
+                        </div>
+                        <!-- Arrow Left -->
+                        <span u="arrowleft" class="jssora07l" style="width: 50px; height: 50px; top: 123px;
+        left: 8px;"></span>
+
+                    </div>
+                    <!-- Jssor Slider End -->
+                </div>
+            </div>
+
+            <!-- Tables -->
+            <style>
+                table, th, td {
+                    border: 1px solid black;
+                    border-collapse: collapse;
+                }
+
+                th, td {
+                    padding: 5px;
+                    text-align: left;
+                }
+            </style>
+
+            <div class="container" id="tables">
+                <br /><br />
+                <p style="font-size:20px"><i><b>One Click Makes Your Data More Meaningfull</b></i></p>
+                <table style="width:97%" id="NewAttrTable">
+                    <thead>
+                        <tr>
+                            <td>Sr #</td>
+                            <td><input class="form-control" type="text" placeholder="Column Name" /></td>
+                            <td><input class="form-control" type="text" placeholder="Column Name" /></td>
+                            <td><input class="form-control" type="text" placeholder="Column Name" /></td>
+                            <td><input class="form-control" type="text" placeholder="Column Name" /></td>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td>1</td>
+                        <td><input class="form-control" type="text" /></td>
+                        <td><input class="form-control" type="text" /></td>
+                        <td><input class="form-control" type="text" /></td>
+                        <td><input class="form-control" type="text" /></td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td><input class="form-control" type="text" /></td>
+                        <td><input class="form-control" type="text" /></td>
+                        <td><input class="form-control" type="text" /></td>
+                        <td><input class="form-control" type="text" /></td>
+                    </tr>
+                </table>
+                <br />
+                <div id="buttonz">
+                    <input class="btn btn-success" type="button" onclick="addRowFn()" id="adrow" value="Add Row" />
+                    <input class="btn btn-success" type="button" onclick="addColumnFn()" id="adcol" value="Add Column" />
+                    <input class="btn btn-primary" type="button" onclick="header()" id="sub" value="Submit" />
+                    <br /><br /><br />
+                </div>
+                <div id="extra"></div>
+            </div>
+
+            <!-- Button actions -->
+            <script>
+                function addRowFn() {
+                    var table = document.getElementById("NewAttrTable");
+                    $('#NewAttrTable tbody').append($("#NewAttrTable tbody tr:last").clone());
+                    $('#NewAttrTable tbody tr:last :text');
+                    $('#NewAttrTable tbody tr:last td:first').html(--table.rows.length);
+                }
+
+                function addColumnFn() {
+                    $('#NewAttrTable tr').append($("<td>"));
+                    $('#NewAttrTable thead tr td:last').html('<input class="form-control" type="text" placeholder="Column Name" />');
+                    $('#NewAttrTable tbody tr').each(function () { $(this).children('td:last').append($('<input class="form-control" type="text" />')) });
+                }
+
+                function plotGraph(colName, list) {
+                    //$("input").attr("ReadOnly", "true");
+                    $("#buttonz").html("");
+
+                    alert("Column Names = " + colName);
+                    $("#buttonz").append("<br/>Set Attribute At X-Axis <select id='x_axis'><option value='' disabled selected>Select X-Axis</option></select>");
+                    //$("#buttonz").append("<br/>Attribute At Y-Axis <select id='y_axis'><option value='' disabled selected>Select Y-Axis</option></select>");
+
+                    for (var b = 0; b < colName.length; b++) {
+                        $("#x_axis").append("<option>" + colName[b] + "</option>");
+                        //$("#y_axis").append("<option>" + colName[b] + "</option>");
+                    }
+
+                    $("#buttonz").append("<br/><br/><input class='btn btn-success' type='button' onclick='loader()' value='Plot Graph' />    <input class='btn btn-primary' type='button' onclick='back_step()' value='Back' />    <input class='btn btn-primary' type='button' onclick='moreRecord()' value='Refresh' /><br /><br /><br />");
+                }
+
+                function header() {
+                    //$("#myModal").modal();
+                    var table = document.getElementById("NewAttrTable");
+                    var count = 0;
+                    var colName = new Array;
+
+                    var list = [];
+
+                    for (var x = 1; ; x++) {
+                        try {
+                            if (table.rows[0].cells[x].firstChild.value) {
+                                //alert(table.rows[0].cells[x].firstChild.value);
+                                colName.push(table.rows[0].cells[x].firstChild.value);
+                            }
+                            else {
+                                break;
+                            }
+                        }
+                        catch (e) {
+                            break;
+                        }
+                    }
+                    for (var i = 1; i < table.rows.length; i++) {
+                        var allData = new Array();
+                        for (var j = 1; j < colName.length + 1 ; j++) {
+                            try {
+                                if (table.rows[i].cells[j].firstChild.value) {
+                                    count++;
+                                    allData.push(table.rows[i].cells[j].firstChild.value);
+                                }
+                                else {
+                                    allData.push(0);
+                                }
+                            }
+                            catch (e) {
+                                break;
+                            }
+                        }
+                        list.push(allData);
+                    }
+                    plotGraph(colName, list);
+                }
+
+                function back_step() {
+                    $("#buttonz").html("");
+                    $("#buttonz").append("<input class='btn btn-success' type='button' onclick='addRowFn()' id='adrow' value='Add Row' />     <input class='btn btn-success' type='button' onclick='addColumnFn()' id='adcol' value='Add Column' />     <input class='btn btn-primary' type='button' onclick='header()' id='sub' value='Submit' /><br /><br /><br />");
+                }
+
+                function loader() {
+                    var table = document.getElementById("NewAttrTable");
+                    var count = 0;
+                    var pre = 0;
+                    var colName = new Array;
+                    var list = [];
+
+                    var text_x = document.getElementById('x_axis').options[document.getElementById('x_axis').selectedIndex].text;
+                    //var text_y = document.getElementById('y_axis').options[document.getElementById('y_axis').selectedIndex].text;
+
+                    //-------------------------------------------------------
+                    //-----------------Setting on axis-----------------------
+                    //-------------------------------------------------------
+                    var findIndexAtX = 0;
+                    for (var x = 1; ; x++) {
+                        try {
+                            if (table.rows[0].cells[x].firstChild.value == text_x) {
+                                findIndexAtX = x;
+                            }
+                            else if (table.rows[0].cells[x].firstChild.value != text_x) {
+
+                            }
+                            else {
+                                break;
+                            }
+                        }
+                        catch (e) {
+                            break;
+                        }
+                    }
+                    alert("Selected Index = " + findIndexAtX);
+                    var selectedCol = new Array();
+                    for (var i = 1; i < table.rows.length; i++) {
+
+                        selectedCol.push(table.rows[i].cells[findIndexAtX].firstChild.value);
+                    }
+                    alert(selectedCol);
+                    //-------------------------------------------------------
+
+                    for (var x = 1; ; x++) {
+                        try {
+                            if (table.rows[0].cells[x].firstChild.value == table.rows[0].cells[findIndexAtX].firstChild.value) {
+
+                            }
+                            else if (table.rows[0].cells[x].firstChild.value) {
+                                colName.push(table.rows[0].cells[x].firstChild.value);
+                            }
+                            else {
+                                break;
+                            }
+                        }
+                        catch (e) {
+                            break;
+                        }
+
+                    }
+                    alert("Except = " + colName);
+                    for (var i = 1; i < table.rows.length; i++) {
+                        var allData = new Array();
+                        for (var j = 1; j < colName.length + 2 ; j++) {
+                            try {
+                                if (table.rows[i].cells[j].firstChild.value == table.rows[i].cells[findIndexAtX].firstChild.value) {
+
+                                }
+                                else if (table.rows[i].cells[j].firstChild.value) {
+                                    count++;
+                                    allData.push(table.rows[i].cells[j].firstChild.value);
+                                }
+                                else {
+                                    allData.push(0);
+                                }
+                            }
+                            catch (e) {
+                                break;
+                            }
+
+                        }
+                        list.push(allData);
+                    }
+                    var data0 = selectedCol;//["2008", "2009", "2010", "2011", "2012", "2013", "2014"];
+                    var data1 = colName; // Column Names
+                    var data2; // Column Values
+
+                    var arr01 = new Array();
+                    var count = list.length;
+                    for (var c = 0; c < count; c++) {
+                        data2 = list.pop();
+
+                        var abc = {};
+                        abc.x = data0[c];
+
+                        abc.a = data2[0];
+                        abc.b = data2[1];
+                        abc.c = data2[2];
+                        abc.d = data2[3];
+                        abc.e = data2[4];
+                        abc.f = data2[5];
+                        abc.g = data2[6];
+                        abc.h = data2[7];
+
+                        arr01.push(abc);
+                    }
+                    //---------------------------------------------------
+                    //------------------- GROUP BAR CHART ---------------
+                    $("#mnb").html("");
+                    Morris.Bar({
+                        element: 'mnb',
+                        data: arr01,
+                        xkey: 'x',
+                        ykeys: ['y', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'],
+                        labels: ["ABC", data1[0], data1[1], data1[2], data1[3], data1[4], data1[5], data1[6], data1[7]],
+                        smooth: false,
+                        resize: false,
+                        hideHover: true
+                    });
+
+                }
+
+                function moreRecord() {
+                    alert("More Records");
+
+                    $('#tables').html("");
+                    $('#tables').html("<div class='container' id='tables'><br /><br /><br /><p style='font-size:20px'><i><b>One Click Makes Your Data More Meaningfull</b></i></p>" +
+                    "<table style='width:97%' id='NewAttrTable'><thead><tr><td>Sr #</td><td><input class='form-control' type='text' placeholder='Column Name' /></td><td><input class='form-control' type='text' placeholder='Column Name' /></td><td><input class='form-control' type='text' placeholder='Column Name' /></td><td><input class='form-control' type='text' placeholder='Column Name' /></td>" +
+                    "</tr></thead><tr><td>1</td><td><input class='form-control' type='text' /></td><td><input class='form-control' type='text' /></td><td><input class='form-control' type='text' /></td><td><input class='form-control' type='text' /></td></tr>" +
+                    "<tr><td>2</td><td><input class='form-control' type='text' /></td><td><input class='form-control' type='text' /></td><td><input class='form-control' type='text' /></td><td><input class='form-control' type='text' /></td></tr></table>" +
+                    "<br /><div id='buttonz'><input class='btn btn-success' type='button' onclick='addRowFn()' id='adrow' value='Add Row' />     <input class='btn btn-success' type='button' onclick='addColumnFn()' id='adcol' value='Add Column' />     <input class='btn btn-primary' type='button' onclick='header()' id='sub' value='Submit' /></div><div id='extra'></div></div><br /><br /><br />");
+
+                }
+
+            </script>
+        </div>
+    </section>
+
+    <!-- user map -->
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+    <script type="text/javascript">
+        adrs2 = 0;
+        var x = document.getElementById("demo");    //1
+        function getLocation() {
+
+            if (navigator.geolocation) {
+                //$("#googleMap").html("");
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+            }
+            else { x.innerHTML = "Geolocation is not supported by this browser."; }
+        }
+
+        function GetAddress(a, b) {                 //3
+            var lat = a;
+            var lng = b;
+            var latlng = new google.maps.LatLng(lat, lng);
+            var geocoder = geocoder = new google.maps.Geocoder();
+            geocoder.geocode({ 'latLng': latlng }, function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    if (results[1]) {
+                        adrs = results[1].formatted_address;
+                        $("#label").text(adrs);
+                        getDataOnAddress(adrs);
+                    }
+                }
+            });
+        }
+
+        function initialize(a, b) {              //4
+            var mapProp = {
+                center: new google.maps.LatLng(a, b),    // Latitude + Longitude
+                zoom: 10,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+
+            var marker = google.map.marker({
+                position: mapProp,
+                map: map,
+                title: 'Lahore'
+            });
+        }
+
+        function showPosition(position) {       //2
+            var latlondata = position.coords.latitude + "," + position.coords.longitude;
+            var latlon = "Your Latitude Position is:=" + position.coords.latitude + "," + "Your Longitude Position is:=" + position.coords.longitude;
+            var a = position.coords.latitude;
+            var b = position.coords.longitude;
+
+            GetAddress(a, b);
+
+            google.maps.event.addDomListener(window, 'load', initialize(a, b));
+
+            //var img_url = "http://maps.googleapis.com/maps/api/staticmap?center=" + latlondata + "&zoom=14&size=400x300&sensor=false";
+            //document.getElementById("googleMap").innerHTML = "<img src='" + img_url + "' />";
+        }
+
+        function showError(error) {
+            if (error.code == 1) {
+                x.innerHTML = "User denied the request for Geolocation."
+            }
+            else if (err.code == 2) {
+                x.innerHTML = "Location information is unavailable."
+            }
+            else if (err.code == 3) {
+                x.innerHTML = "The request to get user location timed out."
+            }
+            else {
+                x.innerHTML = "An unknown error occurred."
+            }
+        }
+
+        function getDataOnAddress(adrs) {
+            var data = adrs.split(",");
+            var s = data[data.length - 2];
+            lhr = data[data.length - 2];
+        }
+    </script>
+
+    <!-- Location Portion -->
+    <section id="locate" class="bg-darkest-gray">
+        <div class="container" style="background-color: aliceblue">
+            <br />
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading" style="color: darkblue"><i>Here's Your Location</i></h2><hr style="border:groove;" />
+                    @*<h3 class="section-subheading text-muted" style="color: lightblue">Stats of Pakistan</h3>*@
+                </div>
+            </div>
+            <br />
+            <div style="padding:25px">
+                <p id="label"></p>
+                <div id="myLocation">
+                    <div style="height: 350px; padding-left: 32%" id="googleMap">
+                        <button style="padding:80px" class="btn btn-success" onclick="getLocation()"><p style="font-size:25px;">Get Your Location</p></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function fn_access() {
+            document.getElementById("beforeGettingLoc").innerHTML = "";
+            $("#afterGettingLoc").css("visibility", "visible");
+            getLocation();
+        }
+
+        function fn_deny() {
+            alert("Deny");
+        }
+    </script>
+    <!-- Tracking Portion -->
+    <section id="track" style="background-image: url(/Images/hd1.jpeg)">
+        <div class="container" style="background-color: aliceblue">
+            <br />
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading" style="color: darkblue"><i>Nearby Located Info</i></h2>
+                </div>
+            </div>
+            <br />
+            <div id="ww" class="row">
+                <div id="beforeGettingLoc" align="center" @*style="padding-left:28%"*@>
+                    <p style="font-size:20px;">Can We Acccess Your Location</p>
+                    <button class="btn btn-success" onclick="fn_access()">Allow</button>
+                    <button class="btn btn-success" onclick="fn_deny()">Deny</button>
+                </div>
+                <div id="afterGettingLoc" class="col-lg-5" style="visibility:hidden">
+                    <div id="catagory" style="width:400px; padding-left:50px">
+                        <label id="op1" style="font-size: 25px; color: greenyellow"><i>> Marital Status</i></label><br />
+                        <label id="op2" style="font-size: 25px; color: greenyellow"><i>> Education Level</i></label><br />
+                        <label id="op3" style="font-size: 25px; color: greenyellow"><i>> Literacy</i></label><br />
+                        <label id="op4" style="font-size: 25px; color: greenyellow"><i>> Religion</i></label><br />
+                        <label id="op5" style="font-size: 25px; color: greenyellow"><i>> Mother Language</i></label><br />
+                        <label id="op6" style="font-size: 25px; color: greenyellow"><i>> Field Of Education</i></label><br />
+                        <label id="op7" style="font-size: 25px; color: greenyellow"><i>> Can Read Their Holly Book</i></label><br />
+                        <label id="op8" style="font-size: 25px; color: greenyellow"><i>> Number Of Schools</i></label><br />
+                    </div>
+                </div>
+                <div id="NLI" class="col-lg-7">
+                    <br />
+                    <div id="di" style="background-color: aliceblue; position: absolute"></div>
+                    <div id="hg"></div>
+                </div>
+            </div>
+
+            <div id="animated-example" class="animated fadeInUpBig"></div>
+            <br /><br />
+        </div>
+    </section>
+
+    <!-- fadding effect -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            blinkeffect('demo');
+            blinkeffect('#op2');
+            blinkeffect('#op4');
+            blinkeffect('#op6');
+            blinkeffect('#op8');
+        })
+        function blinkeffect(selector) {
+            $(selector).fadeOut('slow', function () {
+                $(this).fadeIn('slow', function () {
+                    blinkeffect(this);
+                });
+            });
+        }
+    </script>
+
+    <!-- user related graphs -->
+    <script>
+        $("#op1").click(function () {
+            alert("Current District = " + lhr);
+
+            $("#di").animate({
+                left: '50px',
+                opacity: '1',
+                height: '340px',
+                width: '350px'
+            });
+            var data1 = {};
+            data1.Attr_Name = "Merital Status";
+            data1.Teh_ID = 1;  //Lahore City
+            dchart(data1);
+        });
+        $("#op2").click(function () {
+            $("#di").animate({
+                left: '250px',
+                opacity: '1',
+                height: '340px',
+                width: '350px'
+            });
+            var data1 = {};
+            data1.Attr_Name = "Education Level";
+            data1.Teh_ID = 1;
+            dchart(data1);
+        });
+        $("#op3").click(function () {
+            $("#di").animate({
+                left: '50px',
+                opacity: '1',
+                height: '340px',
+                width: '350px'
+            });
+            var data1 = {};
+            data1.Attr_Name = "Literacy";
+            data1.Teh_ID = 1;
+            dchart(data1);
+        });
+        $("#op4").click(function () {
+            $("#di").animate({
+                left: '250px',
+                opacity: '1',
+                height: '340px',
+                width: '350px'
+            });
+            var data1 = {};
+            data1.Attr_Name = "Religion";
+            data1.Teh_ID = 1;
+            dchart(data1);
+        });
+        $("#op5").click(function () {
+            $("#di").animate({
+                left: '50px',
+                opacity: '1',
+                height: '340px',
+                width: '350px'
+            });
+            var data1 = {};
+            data1.Attr_Name = "Mother Language";
+            data1.Teh_ID = 1;
+            dchart(data1);
+        });
+        $("#op6").click(function () {
+            $("#di").animate({
+                left: '250px',
+                opacity: '1',
+                height: '340px',
+                width: '350px'
+            });
+            var data1 = {};
+            data1.Attr_Name = "Field of Education";
+            data1.Teh_ID = 1;
+            dchart(data1);
+        });
+        $("#op7").click(function () {
+            $("#di").animate({
+                left: '50px',
+                opacity: '1',
+                height: '340px',
+                width: '350px'
+            });
+            var data1 = {};
+            data1.Attr_Name = "Can Read";
+            data1.Teh_ID = 1;
+            dchart(data1);
+        });
+
+        function dchart(data1) {
+
+            $.ajax({
+                url: "/Home/UserRelatedData",
+                type: "POST",
+                data: JSON.stringify(data1),
+                dataType: "JSON",
+                contentType: "Application/JSON",
+                async: true,
+                success: function (d) {
+                    var data1 = d[0];
+                    var data2 = d[1];
+                    var arr = new Array();
+
+                    for (var c = 0; c < data1.length; c++) {
+                        var abc = {};
+                        abc.value = data2[c];
+                        abc.label = data1[c];
+                        arr.push(abc);
+                    }
+                    //----------------------------
+
+                    $("#di").html("");
+                    $("#di").html("<br/><h2>" + data1.Attr_Name + "</h2><br/>");
+                    Morris.Donut({
+                        element: 'di',
+                        data: arr,
+                        formatter: function (x) { return x }
+                    }).on('click', function (i, row) {
+                        console.log(i, row);
+                    });
+                },
+                error: function () {
+                    alert('Error');
+                }
+            });
+        }
+
+    </script>
+    <br /><br />
+    <!-- Footer -->
+    <div class="container" style="background-color:black">
+        <div class="container-fluid" style="background-color:gray; padding:40px; padding-left:200px; padding-right:100px">
+            <div class="col-lg-4">
+                <div style="padding-right:100px">
+                    <h3>Connect</h3>
+                    <hr />
+                    <a href="#">Blog</a><br />
+                    <a href="#">Facebook</a><br />
+                    <a href="#">Google+</a><br />
+                    <a href="#">Twitter</a><br />
+                    <a href="#">YouTube</a><br />
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div style="padding-right:100px">
+                    <h3>Contents</h3>
+                    <hr />
+                    <a class="page-scroll" href="#page-top">Home</a><br />
+                    <a href="#">Service</a><br />
+                    <a href="#">Post Problems</a><br />
+                    <a class="page-scroll" href="#about">About Us</a><br />
+                    <a class="page-scroll" href="#contact">Contact Us</a><br />
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div style="padding-right:100px">
+                    <h3>Developers</h3>
+                    <hr />
+                    <a href="https://www.facebook.com/hamza.shafique.904">Hamza Shafique</a><br />
+                    <a href="https://www.facebook.com/shehraz.khan.980">Shehraz Khan</a><br />
+                    <a href="https://www.facebook.com/shaheryar.ahmed.982">Shaheryar Khan</a><br />
+                    <a href="https://www.facebook.com/ali.zuhaib.313">Ali Zuhaib</a><br />
+                </div>
+            </div>
+        </div>
+        <div>
+            <br />
+            <span style="padding-left:200px">
+                <span class="copyright" style="color:white">Copyright &copy; National Data Visualization 2015. All Rights Reserved.</span>
+            </span>
+        </div>
+        <br />
+    </div>
+
+    <!-- Plugin JavaScript -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+    <script src="/JS/classie.js"></script>
+    <script src="/JS/cbpAnimatedHeader.js"></script>
+
+    <!-- Contact Form JavaScript -->
+    <script src="/JS/jqBootstrapValidation.js"></script>
+    <script src="/JS/contact_me.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="/JS/agency.js"></script>
+</body>
+
+</html>

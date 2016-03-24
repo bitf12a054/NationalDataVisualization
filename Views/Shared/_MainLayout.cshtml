@@ -1,0 +1,113 @@
+﻿@model MapSuite_using_MVC.Models.UserMessage
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>@ViewBag.Title</title>
+    <link rel="icon" href="/Images/LOGO.jpg">
+    <!-- Bootstrap Core CSS -->
+    <link href="/CSS/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Custom CSS -->
+    <link href="/CSS/StyleSheet1.css" rel="stylesheet">
+    <link href="~/CSS/examples.css" rel="stylesheet" />
+    <link href="/CSS/full-slider.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="/font-awesome-4.3.0/font-awesome-4.3.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+    <script src="~/JS/jquery-ui.min.js"></script>
+    <script src="~/JS/jquery-1.11.3.js"></script>
+
+    <script src="~/JS/sweetalert.min.js"></script>
+    <link href="~/CSS/sweetalert.css" rel="stylesheet" />
+
+    <link href="~/JS/morris.css" rel="stylesheet" />
+    <script src="~/JS/morris.min.js"></script>
+    <script src="~/JS/morris.js"></script>
+    <script src="~/JS/prettify.js"></script>
+    <script src="~/JS/rapheal.js"></script>
+    <script src="~/JS/example.js"></script>
+    <script src="~/Scripts/EmailVerify.js"></script>
+
+    <script src="~/JS/jquery.flot.js"></script>
+    <script src="~/JS/jquery.flot.crosshair.js"></script>
+
+    <script src="~/JS/d3.min.js"></script>
+    @*<script src="~/Scripts/DropdownMenu.js"></script>*@
+    <script src="~/Scripts/Comments.js"></script>
+    <script src="~/Scripts/EditOrDeletePost.js"></script>
+
+    <script src="~/JS/js/jquery-1.9.1.min.js"></script>
+    <script src="~/JS/js/jssor.core.js"></script>
+    <script src="~/JS/js/jssor.slider.js"></script>
+    <script src="~/JS/js/jssor.utils.js"></script>
+
+    <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+    <script src="https://www.amcharts.com/lib/3/serial.js"></script>
+    <script src="https://www.amcharts.com/lib/3/themes/dark.js"></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+        google.load("visualization", "1", { packages: ["corechart"] });
+    </script>
+</head>
+
+<body style="background-color:black" id="page-top" class="index">
+
+    @RenderBody()
+
+    <!-- jQuery -->
+    @*<script src="/JS/jquery-1.11.3.js"></script>*@
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/JS/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+    <script src="/JS/classie.js"></script>
+    <script src="/JS/cbpAnimatedHeader.js"></script>
+
+    <!-- Contact Form JavaScript -->
+    <script src="/JS/jqBootstrapValidation.js"></script>
+    <script src="/JS/contact_me.js"></script>
+
+    <!-- JavaScript For Post Tabs -->
+    <script>
+        jQuery('.tabs .tab-links a').on('click', function (e) {
+            var currentAttrValue = jQuery(this).attr('href');
+
+            // Show/Hide Tabs
+            jQuery('.tabs ' + currentAttrValue).show().siblings().hide();
+
+            // Change/remove current tab to active
+            jQuery(this).parent('li').addClass('active').siblings().removeClass('active');
+
+            e.preventDefault();
+        });
+        $("#file").change(function () { selectFileClick(); });
+
+        function selectFileClick() {
+            var fileName = filedialog();
+            // parsing file...
+            return false;
+        }
+
+    </script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="/JS/agency.js"></script>
+
+</body>
+
+</html>
