@@ -103,7 +103,7 @@
             </div>
             <div style="border:ridge; background-image:url(/Images/bg3.jpg)" class="row">
                 <br />
-                <div class="col-lg-offset-2 col-lg-8">
+                <div id="strt" class="col-lg-offset-2 col-lg-8">
                     @foreach (var d in ViewBag.Alldata)
                     {
                         <div style="border: ridge; padding: 50px; background-image: url(/Images/bg8.jpg)">
@@ -123,17 +123,25 @@
                                 <span style=" font-size:20px; font-family:'Bookman Old Style'"><i><b>@ui.First_Name @ui.Last_Name</b></i></span>
                             </span>
                             <div>
-                                <p class="section-subheading text-muted" style="color:white; font-size:20px">
-                                    @d.Problem
-                                </p>
+                                <div id="xy">
+                                    <p class="section-subheading text-muted" style="color:white; font-size:20px">
+                                        @d.Problem
+                                    </p>
+                                    <div id="likeCounter" title="@y" style="color:white; font-size:15px">
+                                        @d.Like Likes
+                                    </div>
+                                    <div id="dislikeCounter" title="Dis_@y" style="color:white; font-size:15px">
+                                        @d.Dislike Dislikes
+                                    </div>
+                                </div>
                                 <hr />
                                 <div>
                                     <ul class="list-inline">
                                         <li>
-                                            <button class="btn btn-warning" id="lk"><i class="fa fa-thumbs-o-up"></i>   Like</button>
+                                            <button class="btn btn-warning" id="@y,@x" name="lk"><i class="fa fa-thumbs-o-up"></i>   Like</button>
                                         </li>
                                         <li>
-                                            <button class="btn btn-warning" id="dlk"><i class="fa fa-thumbs-o-down"></i>   Dislike</button>
+                                            <button class="btn btn-warning" id="@y,@x" name="dlk"><i class="fa fa-thumbs-o-down"></i>   Dislike</button>
                                         </li>
                                     </ul>
                                 </div>
@@ -163,6 +171,49 @@
                     }
                 </div>
                 <script>
+                    $("button[name='lk']").on('click', function () {
+                        var id = $(this).attr('id');
+                        var arr = id.split(',');
+
+                        var data = {};
+                        data.Post_ID = arr[0];
+                        data.User_ID = arr[1];
+
+                        $.ajax({
+                            url: "/Home/saveLike",
+                            type: "POST",
+                            data: JSON.stringify(data),
+                            dataType: "JSON",
+                            contentType: "Application/JSON",
+                            async: true,
+                            success: function (d) {
+                                $("div[title="+arr[0]+"]").html(d + "  Likes");
+                            }
+                        });
+                    });
+
+                    $("button[name='dlk']").on('click', function () {
+                        var data = $(this).attr('id');
+                        var arr = data.split(',');
+
+                        var data = {};
+                        data.Post_ID = arr[0];
+                        data.User_ID = arr[1];
+
+                        $.ajax({
+                            url: "/Home/saveDislike",
+                            type: "POST",
+                            data: JSON.stringify(data),
+                            dataType: "JSON",
+                            contentType: "Application/JSON",
+                            async: true,
+                            success: function (d) {
+                                $("div[title*=Dis_" + arr[0] + "]").html(d + "  Dislikes");
+                                document.getElementById(this).disabled = true;
+                            }
+                        });
+                    });
+
                     $("input").keypress(function (e) {
                         if (e.which == 13) {
 

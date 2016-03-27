@@ -106,7 +106,18 @@
                 <div class="col-lg-offset-2 col-lg-8">
                     @foreach (var l in ViewBag.data)
                     {
-                        <div style="border: ridge; padding: 50px; background-image: url(/Images/bg8.jpg)">
+                        
+                        MapSuite_using_MVC.Models.NDVEntities db = new MapSuite_using_MVC.Models.NDVEntities();
+                        int online_user = (int)l.User_ID;
+                        int x = (int)ViewBag.ud;
+                        int y = (int)l.Id;
+
+                        MapSuite_using_MVC.Models.User_Info ui = db.User_Info.First(a => a.User_ID == online_user);
+                        var cm = (from x1 in db.Coments
+                                  where x1.Post_ID == y
+                                  select x1).ToList();
+                        
+                        <div title="Del_@y" style="border: ridge; padding: 50px; background-image: url(/Images/bg8.jpg)">
                             <div>
                                 <span>
                                     <img src="~/Images/user.png" />
@@ -114,17 +125,17 @@
                                 </span>
                             </div>
                             <div>
-                                <p class="section-subheading text-muted" style="color:white; font-size:20px">
+                                <div class="section-subheading text-muted" style="color:white; font-size:20px">
                                     @l.Problem
-                                </p>
+                                </div>
                                 <hr />
                                 <div>
                                     <ul class="list-inline">
                                         <li>
-                                            <button value=@l.Id class="btn btn-warning" id="edit"><i class="fa fa-edit"></i>   Edit</button>
+                                            <button class="btn btn-warning" name="edit" id="@y,@x"><i class="fa fa-edit"></i>   Edit</button>
                                         </li>
                                         <li>
-                                            <button value=@l.Id class="btn btn-warning" id="delete"><i class="fa fa-remove"></i>   Delete</button>
+                                            <button class="btn btn-warning" name="delete" id="@y,@x"><i class="fa fa-remove"></i>   Delete</button>
                                         </li>
                                     </ul>
                                 </div>
@@ -134,7 +145,29 @@
                         <br />
                     }
                 </div>
+                <script>
+                    $("button[name='delete']").on('click', function () {
+                        var id = $(this).attr('id');
+                        var arr = id.split(',');
 
+                        var data = {};
+                        data.Post_ID = arr[0];
+                        data.User_ID = arr[1];
+
+                        $.ajax({
+                            url: "/Home/DelMyPost",
+                            type: "POST",
+                            data: JSON.stringify(data),
+                            dataType: "JSON",
+                            contentType: "Application/JSON",
+                            async: true,
+                            success: function (d) {
+                                alert("Successfully Deleted");
+                                $("div[title=Del_" + arr[0] + "]").html("");
+                            }
+                        });
+                    });
+                </script>
             </div>
         </div>
     </section>
