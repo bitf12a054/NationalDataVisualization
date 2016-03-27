@@ -50,7 +50,7 @@ desired effect
         <header class="main-header">
 
             <!-- Logo -->
-            <a href="index2.html" class="logo">
+            <a href="/Home/HomePage" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
                 <span class="logo-mini"><b>NDV</b></span>
                 <!-- logo for regular state and mobile devices -->
@@ -495,8 +495,8 @@ desired effect
                     for (var i = 0; i < d.length; i++)
                     {
                         $('#usersDiv').append('<div class="col-md-4 col-sm-6 portfolio-item">'+
-                            '<img src="~/Images/user.png" onclick="showDetails(\'' + d[i].User_Name + '\',\'' + d[i].Email + '\',\'' + d[i].Gender + '\',\'' + d[i].Job + '\')" class="img-circle" alt="User Image" />' +
-                                        '<br /><label class="text-light-blue">'+d[i].User_Name+'</label><br />'+
+                            '<img src="~/Images/user.png" onclick="showDetails(\'' + d[i].First_Name +" "+ d[i].Last_Name + '\',\'' + d[i].Email + '\',\'' + d[i].Gender + '\',\'' + d[i].Job + '\')" class="img-circle" alt="User Image" />' +
+                                        '<br /><label class="text-light-blue">' + d[i].First_Name + " " + d[i].Last_Name + '</label><br />' +
                                         '<label class="text-light-blue">'+d[i].Email+'</label>'+
 '<form method="post" action="deleteUser/'+ d[i].User_ID+'">'+
 '<input type="submit" name="delete" class="btn-success" value="delete" /></form></div>');

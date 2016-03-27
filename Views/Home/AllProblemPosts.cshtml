@@ -110,15 +110,42 @@
                             <span>
                                 <img src="~/Images/user.png" />
                                 @{
-                        MapSuite_using_MVC.Models.NDVEntities db = new MapSuite_using_MVC.Models.NDVEntities();
-                        int online_user = (int)d.User_ID;
-                        int x = (int)ViewBag.ud;
-                        int y = (int)d.Id;
+                                MapSuite_using_MVC.Models.NDVEntities db = new MapSuite_using_MVC.Models.NDVEntities();
+                                int online_user = (int)d.User_ID;
+                                int x = (int)ViewBag.ud;
+                                int y = (int)d.Id;
+                                bool btn = false;
+                                bool btn2 = false;
+                                
+                                MapSuite_using_MVC.Models.User_Info ui = db.User_Info.First(a => a.User_ID == online_user);
+                                var cm = (from x1 in db.Coments
+                                          where x1.Post_ID == y
+                                          select x1).ToList();
 
-                        MapSuite_using_MVC.Models.User_Info ui = db.User_Info.First(a => a.User_ID == online_user);
-                        var cm = (from x1 in db.Coments
-                                  where x1.Post_ID == y
-                                  select x1).ToList();
+                                List<MapSuite_using_MVC.Models.PostsLiked> pl = db.PostsLikeds.Where(yy => yy.Post_ID == y).ToList();
+                                List<MapSuite_using_MVC.Models.PostsDisliked> pdl = db.PostsDislikeds.Where(yy => yy.Post_ID == y).ToList();
+                                foreach(var obj in pl)
+                                {
+                                    if (obj.User_ID == x){
+                                        btn = true;
+                                        break;
+                                    }
+                                    else {
+                                        btn = false;
+                                    }
+                                }
+                                foreach (var obj2 in pdl)
+                                {
+                                    if (obj2.User_ID == x)
+                                    {
+                                        btn2 = true;
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        btn2 = false;
+                                    }
+                                }
                                 }
                                 <span style=" font-size:20px; font-family:'Bookman Old Style'"><i><b>@ui.First_Name @ui.Last_Name</b></i></span>
                             </span>
@@ -138,10 +165,29 @@
                                 <div>
                                     <ul class="list-inline">
                                         <li>
-                                            <button class="btn btn-warning" id="@y,@x" name="lk"><i class="fa fa-thumbs-o-up"></i>   Like</button>
+                                            @{
+                                            if (btn)
+                                            {
+                                                 <button class="btn btn-warning" value="hh_@y" id="@y,@x" name="lk" disabled><i class="fa fa-thumbs-o-up"></i>   Like</button>
+                                            }
+                                            else
+                                            {
+                                                <button class="btn btn-warning" value="hh_@y" id="@y,@x" name="lk"><i class="fa fa-thumbs-o-up"></i>   Like</button>
+                                            }
+                                            }
                                         </li>
                                         <li>
-                                            <button class="btn btn-warning" id="@y,@x" name="dlk"><i class="fa fa-thumbs-o-down"></i>   Dislike</button>
+                                            @{
+                                            if (btn2)
+                                            {
+                                                <button class="btn btn-warning" value="jj_@y" id="@y,@x" name="dlk"><i class="fa fa-thumbs-o-down"></i>   Dislike</button>
+                                            }
+                                            else
+                                            {
+                                                <button class="btn btn-warning" value="jj_@y" id="@y,@x" name="dlk"><i class="fa fa-thumbs-o-down"></i>   Dislike</button>
+                                            }
+                                            }
+                                            
                                         </li>
                                     </ul>
                                 </div>
@@ -187,7 +233,8 @@
                             contentType: "Application/JSON",
                             async: true,
                             success: function (d) {
-                                $("div[title="+arr[0]+"]").html(d + "  Likes");
+                                $("div[title=" + arr[0] + "]").html(d + "  Likes");
+                                $("button[value=hh_" + arr[0] + "]").prop('disabled', true);
                             }
                         });
                     });
@@ -209,7 +256,7 @@
                             async: true,
                             success: function (d) {
                                 $("div[title*=Dis_" + arr[0] + "]").html(d + "  Dislikes");
-                                document.getElementById(this).disabled = true;
+                                $("button[value=jj_" + arr[0] + "]").prop('disabled', true);
                             }
                         });
                     });
